@@ -11,6 +11,11 @@ import CreateVenuePage from './pages/CreateVenuePage/CreateVenuePage';
 import EditVenuePage from './pages/EditVenuePage/EditVenuePage';
 import authGuard from './utils/authGuard';
 
+// ✅ Wrap protected components
+const ProtectedProfile = authGuard(ProfilePage);
+const ProtectedBookings = authGuard(BookingsPage);
+const ProtectedCreateVenue = authGuard(CreateVenuePage);
+const ProtectedEditVenue = authGuard(EditVenuePage);
 
 function App() {
   return (
@@ -20,11 +25,11 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-          <Route path="profile" element={authGuard(ProfilePage)} />
+          <Route path="profile" element={<ProtectedProfile />} />
           <Route path="venue/:id" element={<VenuePage />} />
-          <Route path="bookings" element={authGuard(BookingsPage)} />
-          <Route path="venues/create" element={authGuard(CreateVenuePage)} />
-          <Route path="venues/edit/:id" element={authGuard(EditVenuePage)} />
+          <Route path="bookings" element={<ProtectedBookings />} />
+          <Route path="venues/create" element={<ProtectedCreateVenue />} />
+          <Route path="venues/edit/:id" element={<ProtectedEditVenue />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
