@@ -1,3 +1,74 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../api/auth';
+import { saveUser } from '../../utils/storage';
+
 export default function LoginPage() {
-    return <div>Login Page</div>;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await loginUser({ email, password });
+      saveUser(res.data, res.data.accessToken);
+      navigate('/profile');
+    } catch (err) {
+      setError(err.message || 'Login failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   }
+
+  return (
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6 col-lg-5">
+          <h1 className="text-center">Login</h1>
+          <form onSubmit={handleSubmit} className="mt-4">
+            <div className="mb-3">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+              {loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Logging in...
+                </>
+              ) : (
+                'Login'
+              )}
+            </button>
+
+            {error && <div className="alert alert-danger mt-3">{error}</div>}
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
