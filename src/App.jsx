@@ -9,6 +9,8 @@ import VenuePage from './pages/VenuePage/VenuePage';
 import BookingsPage from './pages/BookingsPage/BookingsPage';
 import CreateVenuePage from './pages/CreateVenuePage/CreateVenuePage';
 import EditVenuePage from './pages/EditVenuePage/EditVenuePage';
+import authGuard from './utils/authGuard';
+
 
 function App() {
   return (
@@ -18,11 +20,11 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route path="profile" element={authGuard(ProfilePage)} />
           <Route path="venue/:id" element={<VenuePage />} />
-          <Route path="bookings" element={<BookingsPage />} />
-          <Route path="venues/create" element={<CreateVenuePage />} />
-          <Route path="venues/edit/:id" element={<EditVenuePage />} />
+          <Route path="bookings" element={authGuard(BookingsPage)} />
+          <Route path="venues/create" element={authGuard(CreateVenuePage)} />
+          <Route path="venues/edit/:id" element={authGuard(EditVenuePage)} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
@@ -31,4 +33,3 @@ function App() {
 }
 
 export default App;
-
