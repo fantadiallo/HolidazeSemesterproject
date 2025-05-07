@@ -1,13 +1,15 @@
+@use '../../styles/variables' as *;
 .layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .main {
-    flex: 1;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $gray-bg;
+  color: $gray-dark;
+}
+
+.main {
+  flex: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}

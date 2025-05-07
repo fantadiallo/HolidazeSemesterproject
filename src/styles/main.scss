@@ -1,9 +1,11 @@
-
-
 @use './variables' as *;
 
-
-@import 'bootstrap/scss/bootstrap';
+@use 'bootstrap/scss/bootstrap' with (
+  $primary: $blue-primary,
+  $secondary: $gray-blue,
+  $light: $gray-bg,
+  $dark: $gray-dark
+);
 
 body {
   font-family: 'Inter', sans-serif;
@@ -12,12 +14,11 @@ body {
 }
 
 .formBox {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 1rem;
-  
-    @media (max-width: 576px) {
-      text-align: center;
-    }
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+
+  @media (max-width: 576px) {
+    text-align: center;
   }
-  
+}
