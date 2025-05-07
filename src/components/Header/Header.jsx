@@ -30,6 +30,9 @@ export default function Header() {
               <li className="nav-item">
                 <NavLink to="/" className="nav-link text-white">Home</NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink to="/" className="nav-link text-white">Home</NavLink>
+              </li>
             </ul>
 
             <ul className="navbar-nav ms-auto">
