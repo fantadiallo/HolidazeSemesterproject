@@ -1,0 +1,37 @@
+@use './variables' as *;
+
+.btn-custom {
+  background-color: $primary;
+  color: $white;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($primary, 8%);
+  }
+
+  &:disabled {
+    background-color: $gray-light;
+    cursor: not-allowed;
+  }
+}
+
+.btn-outline-custom {
+  background-color: transparent;
+  color: $primary;
+  border: 2px solid $primary;
+  padding: 0.6rem 1.4rem;
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: $primary;
+    color: $white;
+  }
+}
