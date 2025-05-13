@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
-import { addDays, isWithinInterval } from 'date-fns';
+import { addDays } from 'date-fns';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import styles from './VenuePage.module.scss';
+import { getUser } from '../../utils/storage';
+import { API_BASE } from '../../utils/constants';
+import { getHeaders } from '../../utils/headers';
 
 export default function VenuePage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [venue, setVenue] = useState(null);
   const [bookedRanges, setBookedRanges] = useState([]);
   const [selection, setSelection] = useState([
@@ -17,29 +21,34 @@ export default function VenuePage() {
       key: 'selection',
     },
   ]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchVenue() {
-      const res = await fetch(
-        `https://v2.api.noroff.dev/holidaze/venues/${id}?_bookings=true&_owner=true`
-      );
-      const data = await res.json();
-      setVenue(data.data);
+      try {
+        const res = await fetch(`${API_BASE}/venues/${id}?_bookings=true&_owner=true`);
+        const data = await res.json();
+        setVenue(data.data);
 
-      const bookings = data.data.bookings || [];
-
-      const ranges = bookings.map((b) => ({
-        start: new Date(b.dateFrom),
-        end: new Date(b.dateTo),
-      }));
-
-      setBookedRanges(ranges);
+        const bookings = data.data.bookings || [];
+        const ranges = bookings.map((b) => ({
+          start: new Date(b.dateFrom),
+          end: new Date(b.dateTo),
+        }));
+        setBookedRanges(ranges);
+      } catch (err) {
+        console.error('Failed to fetch venue:', err);
+        alert('Could not load venue.');
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchVenue();
   }, [id]);
 
-  if (!venue) return <p>Loading...</p>;
+  if (loading) return <p className="text-center mt-4">Loading venue...</p>;
+  if (!venue) return <p className="text-center mt-4">Venue not found.</p>;
 
   const disabledDates = bookedRanges.flatMap((range) => {
     const dates = [];
@@ -53,13 +62,50 @@ export default function VenuePage() {
     selection[0].startDate && selection[0].endDate
       ? (selection[0].endDate - selection[0].startDate) / (1000 * 60 * 60 * 24)
       : 0;
+
   const total = nights > 0 ? nights * venue.price : 0;
+
+  async function handleBooking() {
+    const user = getUser();
+    const profileName = user?.name;
+
+    if (!profileName) {
+      alert('Please log in to book.');
+      return;
+    }
+
+    const bookingData = {
+      dateFrom: selection[0].startDate.toISOString(),
+      dateTo: selection[0].endDate.toISOString(),
+      guests: venue.maxGuests,
+      venueId: venue.id,
+    };
+
+    try {
+      const response = await fetch(`${API_BASE}/bookings`, {
+        method: 'POST',
+        headers: getHeaders(true),
+        body: JSON.stringify(bookingData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        navigate('/bookings');
+      } else {
+        alert(result.errors?.[0]?.message || 'Booking failed');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Something went wrong.');
+    }
+  }
 
   return (
     <div className={styles.venuePage}>
       <div className={styles.left}>
         <img
-          src={venue.media[0]?.url}
+          src={venue.media[0]?.url || '/placeholder.jpg'}
           alt={venue.media[0]?.alt || venue.name}
           className={styles.image}
         />
@@ -83,8 +129,10 @@ export default function VenuePage() {
             minDate={new Date()}
             disabledDates={disabledDates}
           />
-          <button className="btn-custom w-100 mt-3">Reserve</button>
-          <p className="mt-2 text-center">Total: ${total}</p>
+          <button onClick={handleBooking} className="btn btn-primary w-100 mt-3">
+            Reserve
+          </button>
+          <p className="mt-2 text-center fw-bold">Total: ${total}</p>
         </div>
       </div>
     </div>
