@@ -6,6 +6,8 @@
   $light: $gray-bg,
   $dark: $gray-dark
 );
+@use './buttons' as *;
+
 
 body {
   font-family: 'Inter', sans-serif;
