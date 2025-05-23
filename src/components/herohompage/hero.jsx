@@ -1,15 +1,20 @@
 import styles from './Hero.module.scss';
 
+/**
+ * Hero Component
+ * Displays a hero section with a background image, headline, and call-to-action button.
+ * @returns {JSX.Element} The rendered Hero component.
+ */
 export default function Hero() {
   return (
-    <section className={`${styles.hero} position-relative`}>
-   <img
+    <section className={styles.hero}>
+      <img
         src="../assets/heroimage.jpg"
         alt="Stylish apartment"
-        className="img-fluid w-100"
+        className={styles.heroImage}
       />
-  <div className={`${styles.heroOverlay} position-absolute top-50 start-50 translate-middle text-center text-white`}>
-  <h1 className="mb-3">Find Your Perfect Stay</h1>
+      <div className={styles.heroOverlay}>
+        <h1>Find Your Perfect Stay</h1>
         <a href="/accommodations" className="btn btn-primary btn-lg">
           Explore Stays
         </a>
@@ -17,5 +22,3 @@ export default function Hero() {
     </section>
   );
 }
-
-  
