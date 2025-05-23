@@ -67,6 +67,15 @@ export async function updateAvatar(name, avatarUrl) {
     return null;
   }
 }
+
+/**
+ * Deletes a venue by its ID.
+ * Sends a DELETE request to the API to remove the specified venue.
+ *
+ * @param {string} id - The ID of the venue to delete.
+ * @returns {Promise<void>} Resolves if the venue is deleted successfully.
+ * @throws {Error} If the API request fails.
+ */
 export async function deleteVenue(id) {
   const res = await fetch(`${API_BASE}/venues/${id}`, {
     method: 'DELETE',
