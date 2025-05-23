@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { loginUser } from '../../api/auth';
 import { saveUser } from '../../utils/storage';
 
@@ -74,6 +74,10 @@ export default function LoginPage() {
 
             {error && <div className="alert alert-danger mt-3">{error}</div>}
           </form>
+          <div className="text-center mt-3">
+            <span>Don't have an account? </span>
+            <Link to="/register">Register here</Link>
+          </div>
         </div>
       </div>
     </div>
