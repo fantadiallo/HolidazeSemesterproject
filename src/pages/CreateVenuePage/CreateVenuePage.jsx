@@ -4,7 +4,6 @@ import { getHeaders } from "../../utils/headers";
 import { getUser } from "../../utils/storage";
 import { API_BASE } from "../../utils/constants";
 
-
 export default function CreateVenuePage() {
   const navigate = useNavigate();
   const user = getUser();
@@ -21,16 +20,28 @@ export default function CreateVenuePage() {
       zip: "",
       country: "",
     },
+    meta: {
+      wifi: false,
+      parking: false,
+      breakfast: false,
+      pets: false,
+    },
   });
 
   function handleChange(e) {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
 
     if (name.startsWith("location.")) {
       const field = name.split(".")[1];
       setFormData((prev) => ({
         ...prev,
         location: { ...prev.location, [field]: value },
+      }));
+    } else if (name.startsWith("meta.")) {
+      const field = name.split(".")[1];
+      setFormData((prev) => ({
+        ...prev,
+        meta: { ...prev.meta, [field]: checked },
       }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
@@ -52,6 +63,7 @@ export default function CreateVenuePage() {
       price: Number(formData.price),
       maxGuests: Number(formData.maxGuests),
       location: formData.location,
+      meta: formData.meta,
     };
 
     try {
@@ -181,6 +193,55 @@ export default function CreateVenuePage() {
               onChange={handleChange}
             />
           </div>
+        </div>
+
+        <h5 className="mt-4">Amenities</h5>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="meta.wifi"
+            id="wifi"
+            checked={formData.meta.wifi}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="wifi">Wi-Fi</label>
+        </div>
+
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="meta.parking"
+            id="parking"
+            checked={formData.meta.parking}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="parking">Parking</label>
+        </div>
+
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="meta.breakfast"
+            id="breakfast"
+            checked={formData.meta.breakfast}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="breakfast">Breakfast Included</label>
+        </div>
+
+        <div className="form-check mb-3">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="meta.pets"
+            id="pets"
+            checked={formData.meta.pets}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="pets">Pet Friendly</label>
         </div>
 
         <button type="submit" className="btn btn-success mt-3">
