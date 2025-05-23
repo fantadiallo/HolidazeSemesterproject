@@ -4,7 +4,13 @@ import { fetchProfile, updateAvatar, deleteVenue } from '../../services/api';
 import styles from './ProfilePage.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 
-
+/**
+ * ProfilePage Component
+ * Displays the user's profile information, avatar update form, upcoming bookings, and venues (if venue manager).
+ * Allows the user to update their avatar and delete their own venues.
+ * Redirects to login if the user is not authenticated.
+ * @returns {JSX.Element} The rendered ProfilePage component.
+ */
 export default function ProfilePage() {
   const navigate = useNavigate();
   const user = getUser();
@@ -58,40 +64,38 @@ export default function ProfilePage() {
     <div className={`container ${styles.profilePage}`}>
       {/* Top Section */}
       <div className="row align-items-center mb-4">
-        <div className="col-md-3 text-center">
+        <div className="col-md-3 text-center position-relative">
           <img
-            src={profile.avatar?.url || 'https://via.placeholder.com/140'}
+            src={avatarUrl || 'https://via.placeholder.com/140'}
             alt={profile.avatar?.alt || 'Avatar'}
-            className="rounded-circle img-fluid"
+            className="rounded-circle img-fluid shadow"
             style={{ width: '140px', height: '140px', objectFit: 'cover' }}
           />
+          <label htmlFor="avatarUrl" className="btn btn-sm btn-outline-primary mt-2 d-block">
+            Update Avatar
+          </label>
+          <form onSubmit={handleAvatarUpdate} className="mt-2">
+            <div className="input-group input-group-sm">
+              <input
+                type="url"
+                id="avatarUrl"
+                className="form-control"
+                placeholder="https://example.com/avatar.jpg"
+                value={avatarUrl}
+                onChange={(e) => setAvatarUrl(e.target.value)}
+                required
+              />
+              <button type="submit" className="btn btn-success">Save</button>
+            </div>
+          </form>
         </div>
+
         <div className="col-md-6">
           <h2 className="mb-1">{profile.name}</h2>
           <p>Email: {profile.email}</p>
           <p>Bookings: {profile._count?.bookings} | Venues: {profile._count?.venues}</p>
         </div>
-        <div className="col-md-3 text-center">
-          <button className="btn btn-primary">Edit Profile</button>
-        </div>
       </div>
-
-      {/* Avatar Update */}
-      <form onSubmit={handleAvatarUpdate} className="mb-5">
-        <label htmlFor="avatarUrl" className="form-label">Update Avatar URL</label>
-        <div className="input-group">
-          <input
-            type="url"
-            id="avatarUrl"
-            className="form-control"
-            placeholder="https://example.com/avatar.jpg"
-            value={avatarUrl}
-            onChange={(e) => setAvatarUrl(e.target.value)}
-            required
-          />
-          <button type="submit" className="btn btn-outline-primary">Update</button>
-        </div>
-      </form>
 
       {/* Upcoming Bookings */}
       <div className="mb-4">
