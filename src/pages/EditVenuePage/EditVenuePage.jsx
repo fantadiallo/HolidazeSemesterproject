@@ -4,25 +4,25 @@ import { deleteVenue } from '../../services/api';
 import { API_BASE } from '../../utils/constants';
 import { getHeaders } from '../../utils/headers';
 
-/**
- * EditVenuePage Component
- * Allows users to edit or delete a venue.
- * Fetches venue data by ID, displays a form for editing, and provides a delete button.
- * On successful update or delete, navigates back to the profile page.
- * @returns {JSX.Element} The rendered EditVenuePage component.
- */
 export default function EditVenuePage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [venue, setVenue] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     media: '',
     price: '',
     maxGuests: '',
+    meta: {
+      wifi: false,
+      parking: false,
+      breakfast: false,
+      pets: false,
+    },
   });
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchVenue() {
@@ -36,6 +36,12 @@ export default function EditVenuePage() {
           media: data.media?.[0]?.url || '',
           price: data.price,
           maxGuests: data.maxGuests,
+          meta: {
+            wifi: data.meta?.wifi || false,
+            parking: data.meta?.parking || false,
+            breakfast: data.meta?.breakfast || false,
+            pets: data.meta?.pets || false,
+          },
         });
       } catch (error) {
         alert('Failed to load venue.');
@@ -47,6 +53,23 @@ export default function EditVenuePage() {
 
     fetchVenue();
   }, [id]);
+
+  function handleChange(e) {
+    const { name, value, type, checked } = e.target;
+
+    if (name.startsWith('meta.')) {
+      const field = name.split('.')[1];
+      setFormData((prev) => ({
+        ...prev,
+        meta: { ...prev.meta, [field]: checked },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -62,6 +85,7 @@ export default function EditVenuePage() {
       ],
       price: Number(formData.price),
       maxGuests: Number(formData.maxGuests),
+      meta: formData.meta,
     };
 
     try {
@@ -106,8 +130,9 @@ export default function EditVenuePage() {
           <input
             type="text"
             className="form-control"
+            name="name"
             value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            onChange={handleChange}
             required
           />
         </div>
@@ -116,9 +141,10 @@ export default function EditVenuePage() {
           <label className="form-label">Description</label>
           <textarea
             className="form-control"
+            name="description"
             rows="4"
             value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            onChange={handleChange}
             required
           ></textarea>
         </div>
@@ -128,8 +154,9 @@ export default function EditVenuePage() {
           <input
             type="url"
             className="form-control"
+            name="media"
             value={formData.media}
-            onChange={(e) => setFormData({ ...formData, media: e.target.value })}
+            onChange={handleChange}
             required
           />
         </div>
@@ -139,8 +166,9 @@ export default function EditVenuePage() {
           <input
             type="number"
             className="form-control"
+            name="price"
             value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+            onChange={handleChange}
             required
             min="0"
           />
@@ -151,11 +179,61 @@ export default function EditVenuePage() {
           <input
             type="number"
             className="form-control"
+            name="maxGuests"
             value={formData.maxGuests}
-            onChange={(e) => setFormData({ ...formData, maxGuests: e.target.value })}
+            onChange={handleChange}
             required
             min="1"
           />
+        </div>
+
+        <h5 className="mt-4">Amenities</h5>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="meta.wifi"
+            id="wifi"
+            checked={formData.meta.wifi}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="wifi">Wi-Fi</label>
+        </div>
+
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="meta.parking"
+            id="parking"
+            checked={formData.meta.parking}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="parking">Parking</label>
+        </div>
+
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="meta.breakfast"
+            id="breakfast"
+            checked={formData.meta.breakfast}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="breakfast">Breakfast Included</label>
+        </div>
+
+        <div className="form-check mb-3">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="meta.pets"
+            id="pets"
+            checked={formData.meta.pets}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="pets">Pet Friendly</label>
         </div>
 
         <button type="submit" className="btn btn-primary">Save Changes</button>
