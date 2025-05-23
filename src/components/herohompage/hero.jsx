@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './Hero.module.scss';
 
 /**
@@ -15,9 +16,9 @@ export default function Hero() {
       />
       <div className={styles.heroOverlay}>
         <h1>Find Your Perfect Stay</h1>
-        <a href="/accommodations" className="btn btn-primary btn-lg">
+        <Link to="/" className="btn btn-primary btn-lg">
           Explore Stays
-        </a>
+        </Link>
       </div>
     </section>
   );
