@@ -13,7 +13,12 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: $gray-bg;
   color: $gray-dark;
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
+
 
 .formBox {
   max-width: 600px;
