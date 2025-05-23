@@ -1,6 +1,22 @@
+/**
+ * RegisterPage Component
+ * Renders a registration form for new users to create an account.
+ *
+ * Params (formData):
+ * - name: {string} User's name (required)
+ * - email: {string} User's email (must end with @stud.noroff.no, required)
+ * - password: {string} User's password (min 8 characters, required)
+ * - venueManager: {boolean} Whether the user is a venue manager (optional)
+ *
+ * Features:
+ * - Validates email and password before submission.
+ * - Shows loading spinner and error/success messages.
+ * - On successful registration, redirects to the login page.
+ *
+ * @returns {JSX.Element} The rendered RegisterPage component.
+ */
 import { useState } from 'react';
 import { registerUser } from '../../api/auth';
-import { saveUser } from '../../utils/storage';
 import { useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
@@ -32,12 +48,14 @@ export default function RegisterPage() {
 
     if (!formData.email.endsWith('@stud.noroff.no')) {
       setLoading(false);
-      return setError('Email must end with @stud.noroff.no');
+      setError('Email must end with @stud.noroff.no');
+      return;
     }
 
     if (formData.password.length < 8) {
       setLoading(false);
-      return setError('Password must be at least 8 characters');
+      setError('Password must be at least 8 characters');
+      return;
     }
 
     try {
@@ -48,7 +66,7 @@ export default function RegisterPage() {
         venueManager: formData.venueManager,
       };
 
-      const res = await registerUser(payload);
+      await registerUser(payload);
       setSuccess('Registration successful! Redirecting to login...');
       setTimeout(() => navigate('/login'), 1500);
     } catch (err) {
