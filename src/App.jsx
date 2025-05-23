@@ -12,10 +12,12 @@
  * - /bookings        : BookingsPage (protected)
  * - /venues/create   : CreateVenuePage (protected)
  * - /venues/edit/:id : EditVenuePage (protected)
+ * - /search          : SearchPage (public)
  * - *                : NotFoundPage (public, catch-all)
  *
  * @returns {JSX.Element} The rendered App component with routing and guards.
  */
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
@@ -27,9 +29,10 @@ import VenuePage from './pages/VenuePage/VenuePage';
 import BookingsPage from './pages/BookingsPage/BookingsPage';
 import CreateVenuePage from './pages/CreateVenuePage/CreateVenuePage';
 import EditVenuePage from './pages/EditVenuePage/EditVenuePage';
+import SearchPage from './pages/SearchPage/SearchPage';
 import authGuard from './utils/authGuard';
 
-// Wrap protected components with authGuard
+
 const ProtectedProfile = authGuard(ProfilePage);
 const ProtectedBookings = authGuard(BookingsPage);
 const ProtectedCreateVenue = authGuard(CreateVenuePage);
@@ -48,6 +51,7 @@ function App() {
           <Route path="bookings" element={<ProtectedBookings />} />
           <Route path="venues/create" element={<ProtectedCreateVenue />} />
           <Route path="venues/edit/:id" element={<ProtectedEditVenue />} />
+          <Route path="search" element={<SearchPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
