@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaSearch } from 'react-icons/fa';
 import styles from './VenueSection.module.scss';
 
 const filters = ['wifi', 'parking', 'breakfast', 'pets'];
@@ -13,6 +14,7 @@ export default function VenueSection() {
   const [venues, setVenues] = useState([]);
   const [search, setSearch] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('');
+  const [showScroll, setShowScroll] = useState(false);
 
   /**
    * Fetches venues from the API and updates the state.
@@ -29,6 +31,24 @@ export default function VenueSection() {
   }, []);
 
   /**
+   * Show scroll-to-top button when scrolled down
+   */
+  useEffect(() => {
+    function handleScroll() {
+      setShowScroll(window.scrollY > 300);
+    }
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  /**
+   * Scrolls the window to the top.
+   */
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /**
    * Filters venues based on the search term and selected filter.
    * @returns {Array} The filtered list of venues.
    */
@@ -43,22 +63,29 @@ export default function VenueSection() {
   return (
     <section className={styles.venueSection}>
       <div className={styles.searchContainer}>
-        <input
-          type="text"
-          placeholder="Search venues..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button className="btn btn-outline-secondary">Filter</button>
+        <div className={styles.inputWrapper}>
+          <input
+            type="text"
+            placeholder="Search venues..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className={styles.searchInput}
+          />
+          <button className={styles.searchButton} type="button" aria-label="Search">
+            <FaSearch />
+          </button>
+        </div>
       </div>
 
       <div className={styles.filters}>
         {filters.map((filter) => (
           <button
             key={filter}
-            className={`${styles.filterButton} ${
-              selectedFilter === filter ? styles.active : ''
-            }`}
+            className={`
+              ${styles.filterButton}
+              ${styles[filter]}
+              ${selectedFilter === filter ? styles.active : ''}
+            `}
             onClick={() =>
               setSelectedFilter(selectedFilter === filter ? '' : filter)
             }
@@ -82,6 +109,16 @@ export default function VenueSection() {
           </div>
         ))}
       </div>
+
+      {showScroll && (
+        <button
+          onClick={scrollToTop}
+          className={styles.scrollToTop}
+          aria-label="Scroll to top"
+        >
+          ↑
+        </button>
+      )}
     </section>
   );
 }
