@@ -1,11 +1,6 @@
 import { API_BASE } from "../utils/constants";
 import { getHeaders } from "../utils/headers";
 
-/**
- * Fetch bookings for a given profile name.
- * @param {string} name - The user's profile name.
- * @returns {Promise<Array>} - The bookings array or empty array.
- */
 export async function getBookingsByUser(name) {
   try {
     const res = await fetch(`${API_BASE}/profiles/${name}/bookings?_venue=true`, {
@@ -20,16 +15,14 @@ export async function getBookingsByUser(name) {
   }
 }
 
-/**
- * Fetch the user's full profile including bookings and venues.
- * @param {string} name - The user's profile name.
- * @returns {Promise<Object>} - The profile data.
- */
 export async function fetchProfile(name) {
   try {
-    const res = await fetch(`${API_BASE}/profiles/${name}?_bookings=true&_venues=true`, {
-      headers: getHeaders(true),
-    });
+    const res = await fetch(
+      `${API_BASE}/profiles/${name}?_bookings=true&_venues=true&_venues.bookings=true&_venues.owner=true`,
+      {
+        headers: getHeaders(true),
+      }
+    );
 
     const { data } = await res.json();
     return data;
@@ -39,12 +32,6 @@ export async function fetchProfile(name) {
   }
 }
 
-/**
- * Update the user's avatar image.
- * @param {string} name - The user's profile name.
- * @param {string} avatarUrl - The new avatar image URL.
- * @returns {Promise<Object>} - The updated profile data.
- */
 export async function updateAvatar(name, avatarUrl) {
   const body = {
     avatar: {
@@ -68,18 +55,25 @@ export async function updateAvatar(name, avatarUrl) {
   }
 }
 
-/**
- * Deletes a venue by its ID.
- * Sends a DELETE request to the API to remove the specified venue.
- *
- * @param {string} id - The ID of the venue to delete.
- * @returns {Promise<void>} Resolves if the venue is deleted successfully.
- * @throws {Error} If the API request fails.
- */
 export async function deleteVenue(id) {
   const res = await fetch(`${API_BASE}/venues/${id}`, {
+    method: "DELETE",
+    headers: getHeaders(true),
+  });
+  if (!res.ok) throw new Error("Failed to delete venue");
+}
+/**
+ * Cancels a booking by ID
+ * @param {string} bookingId
+ * @returns {Promise<void>}
+ */
+export async function cancelBooking(bookingId) {
+  const res = await fetch(`${API_BASE}/bookings/${bookingId}`, {
     method: 'DELETE',
     headers: getHeaders(true),
   });
-  if (!res.ok) throw new Error('Failed to delete venue');
+
+  if (!res.ok) {
+    throw new Error("Failed to cancel booking");
+  }
 }
