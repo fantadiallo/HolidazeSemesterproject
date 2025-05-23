@@ -1,3 +1,8 @@
+/**
+ * Main entry point for the React application.
+ * Renders the App component inside the root DOM element.
+ * Imports global styles and Bootstrap dependencies.
+ */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
