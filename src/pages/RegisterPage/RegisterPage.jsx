@@ -1,25 +1,30 @@
 /**
  * RegisterPage Component
- * Renders a registration form for new users to create an account.
- *
- * Params (formData):
- * - name: {string} User's name (required)
- * - email: {string} User's email (must end with @stud.noroff.no, required)
- * - password: {string} User's password (min 8 characters, required)
- * - venueManager: {boolean} Whether the user is a venue manager (optional)
- *
+ * Renders a registration form that allows users to sign up as either a Customer or a Venue Manager.
+ * 
  * Features:
- * - Validates email and password before submission.
- * - Shows loading spinner and error/success messages.
- * - On successful registration, redirects to the login page.
- *
- * @returns {JSX.Element} The rendered RegisterPage component.
+ * - Validates email and password input
+ * - Supports role selection with explanation (Customer vs Venue Manager)
+ * - Handles form submission with loading spinner and success/error feedback
+ * - Redirects to login on successful registration
+ * 
+ * @returns {JSX.Element} The rendered registration page component.
  */
+
 import { useState } from 'react';
 import { registerUser } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
+  /**
+   * @typedef {Object} FormData
+   * @property {string} name - Full name of the user.
+   * @property {string} email - Must end with @stud.noroff.no.
+   * @property {string} password - Password with minimum 8 characters.
+   * @property {boolean} venueManager - Whether the user is registering as a venue manager.
+   */
+
+  /** @type {[FormData, Function]} */
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,10 +33,20 @@ export default function RegisterPage() {
   });
 
   const navigate = useNavigate();
+
+  /** @type {[string, Function]} */
   const [error, setError] = useState('');
+
+  /** @type {[string, Function]} */
   const [success, setSuccess] = useState('');
+
+  /** @type {[boolean, Function]} */
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Handles changes to form inputs and updates state accordingly.
+   * @param {React.ChangeEvent<HTMLInputElement>} e
+   */
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -40,6 +55,21 @@ export default function RegisterPage() {
     }));
   }
 
+  /**
+   * Handles role toggle between Customer and Venue Manager.
+   * @param {boolean} isManager
+   */
+  function handleRoleSelect(isManager) {
+    setFormData((prev) => ({
+      ...prev,
+      venueManager: isManager,
+    }));
+  }
+
+  /**
+   * Submits the registration form and handles response.
+   * @param {React.FormEvent<HTMLFormElement>} e
+   */
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
@@ -84,24 +114,75 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="mt-4">
             <div className="mb-3">
               <label className="form-label">Name</label>
-              <input type="text" name="name" value={formData.name} onChange={handleChange} className="form-control" required />
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
             </div>
 
             <div className="mb-3">
               <label className="form-label">Email (@stud.noroff.no)</label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-control" required />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
             </div>
 
             <div className="mb-3">
               <label className="form-label">Password</label>
-              <input type="password" name="password" value={formData.password} onChange={handleChange} className="form-control" required />
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
             </div>
 
-            <div className="form-check mb-3">
-              <input type="checkbox" name="venueManager" checked={formData.venueManager} onChange={handleChange} className="form-check-input" id="venueManagerCheck" />
-              <label className="form-check-label" htmlFor="venueManagerCheck">
-                I am a Venue Manager
-              </label>
+            <div className="mb-3">
+              <label className="form-label">Register As</label>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="role"
+                  id="customerRadio"
+                  checked={!formData.venueManager}
+                  onChange={() => handleRoleSelect(false)}
+                />
+                <label className="form-check-label" htmlFor="customerRadio">
+                  Customer
+                </label>
+                <small className="d-block text-muted ms-4">
+                  Book venues and view your bookings.
+                </small>
+              </div>
+
+              <div className="form-check mt-2">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="role"
+                  id="managerRadio"
+                  checked={formData.venueManager}
+                  onChange={() => handleRoleSelect(true)}
+                />
+                <label className="form-check-label" htmlFor="managerRadio">
+                  Venue Manager
+                </label>
+                <small className="d-block text-muted ms-4">
+                  Create and manage venues, and view bookings made by customers.
+                </small>
+              </div>
             </div>
 
             <button type="submit" className="btn btn-primary w-100" disabled={loading}>
