@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
 import { addDays } from 'date-fns';
 import 'react-date-range/dist/styles.css';
@@ -9,6 +9,21 @@ import { getUser } from '../../utils/storage';
 import { API_BASE } from '../../utils/constants';
 import { getHeaders } from '../../utils/headers';
 
+/**
+ * VenuePage Component
+ * Displays detailed information about a single venue, including images, description, location, and booking options.
+ * Fetches venue data by ID, shows unavailable dates, and allows users to select a date range and book the venue.
+ *
+ * Features:
+ * - Fetches venue details, bookings, and owner info from the API.
+ * - Shows venue image, description, location, max guests, and rating.
+ * - Displays a date range picker with disabled dates for existing bookings.
+ * - Calculates total price based on selected nights.
+ * - Allows logged-in users to book the venue.
+ * - Redirects to bookings page after successful booking.
+ *
+ * @returns {JSX.Element} The rendered VenuePage component.
+ */
 export default function VenuePage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -20,7 +35,8 @@ export default function VenuePage() {
       endDate: addDays(new Date(), 1),
       key: 'selection',
     },
-  ]);
+  ]); 
+  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -103,6 +119,9 @@ export default function VenuePage() {
 
   return (
     <div className={styles.venuePage}>
+<div className="redirectLink mb-3">
+  <Link to="/" className="text-decoration-underline text-primary">&larr; Back to Homepage</Link>
+</div>
       <div className={styles.left}>
         <img
           src={venue.media[0]?.url || '/placeholder.jpg'}
