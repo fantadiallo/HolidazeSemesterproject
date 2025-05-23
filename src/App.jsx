@@ -1,3 +1,21 @@
+/**
+ * App Component
+ * Sets up the main application routes using React Router.
+ * Applies authentication guard (authGuard) to protected routes such as profile, bookings, and venue management pages.
+ *
+ * Routes:
+ * - /                : HomePage (public)
+ * - /login           : LoginPage (public)
+ * - /register        : RegisterPage (public)
+ * - /profile         : ProfilePage (protected)
+ * - /venue/:id       : VenuePage (public)
+ * - /bookings        : BookingsPage (protected)
+ * - /venues/create   : CreateVenuePage (protected)
+ * - /venues/edit/:id : EditVenuePage (protected)
+ * - *                : NotFoundPage (public, catch-all)
+ *
+ * @returns {JSX.Element} The rendered App component with routing and guards.
+ */
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
@@ -11,7 +29,7 @@ import CreateVenuePage from './pages/CreateVenuePage/CreateVenuePage';
 import EditVenuePage from './pages/EditVenuePage/EditVenuePage';
 import authGuard from './utils/authGuard';
 
-// ✅ Wrap protected components
+// Wrap protected components with authGuard
 const ProtectedProfile = authGuard(ProfilePage);
 const ProtectedBookings = authGuard(BookingsPage);
 const ProtectedCreateVenue = authGuard(CreateVenuePage);
