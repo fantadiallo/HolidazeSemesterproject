@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../api/auth';
 import { saveUser } from '../../utils/storage';
 
+/**
+ * LoginPage Component
+ * Renders a login form for users to enter their email and password.
+ * Handles authentication, loading state, and error display.
+ * On successful login, saves user data and navigates to the profile page.
+ * @returns {JSX.Element} The rendered LoginPage component.
+ */
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
