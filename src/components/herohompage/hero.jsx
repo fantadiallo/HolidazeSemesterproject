@@ -16,9 +16,9 @@ export default function Hero() {
       />
       <div className={styles.heroOverlay}>
         <h1>Find Your Perfect Stay</h1>
-        <Link to="/" className="btn btn-primary btn-lg">
+        <a href="#venue-section" className="btn btn-primary btn-lg">
           Explore Stays
-        </Link>
+        </a>
       </div>
     </section>
   );
