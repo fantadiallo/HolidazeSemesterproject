@@ -13,7 +13,9 @@ export default function HomePage() {
       <TopBanner />
       <Hero />
       {/* other homepage content */}
-      <VenueSection />
+      <div id="venue-section">
+        <VenueSection />
+      </div>
     </div>
   );
 }
