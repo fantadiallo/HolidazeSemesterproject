@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getHeaders } from "../../utils/headers";
 import { getUser } from "../../utils/storage";
 import { API_BASE } from "../../utils/constants";
+import styles from "./CreateVenuePage.module.scss";
 
 export default function CreateVenuePage() {
   const navigate = useNavigate();
@@ -54,12 +55,7 @@ export default function CreateVenuePage() {
     const newVenue = {
       name: formData.name,
       description: formData.description,
-      media: [
-        {
-          url: formData.media,
-          alt: formData.name || "Venue image",
-        },
-      ],
+      media: [{ url: formData.media, alt: formData.name || "Venue image" }],
       price: Number(formData.price),
       maxGuests: Number(formData.maxGuests),
       location: formData.location,
@@ -86,163 +82,46 @@ export default function CreateVenuePage() {
   }
 
   return (
-    <div className="container py-4">
+    <div className={styles.venueFormPage}>
       <h2>Create Venue</h2>
-      <form onSubmit={handleSubmit} className="mt-4">
-        <div className="mb-3">
-          <label className="form-label">Venue Name</label>
-          <input
-            type="text"
-            className="form-control"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <form onSubmit={handleSubmit}>
+        <label>Venue Name</label>
+        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
 
-        <div className="mb-3">
-          <label className="form-label">Description</label>
-          <textarea
-            className="form-control"
-            name="description"
-            rows="4"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          ></textarea>
-        </div>
+        <label>Description</label>
+        <textarea name="description" rows="4" value={formData.description} onChange={handleChange} required />
 
-        <div className="mb-3">
-          <label className="form-label">Image URL</label>
-          <input
-            type="url"
-            className="form-control"
-            name="media"
-            value={formData.media}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <label>Image URL</label>
+        <input type="url" name="media" value={formData.media} onChange={handleChange} required />
 
-        <div className="mb-3">
-          <label className="form-label">Price per night</label>
-          <input
-            type="number"
-            className="form-control"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            min="0"
-          />
-        </div>
+        <label>Price per night</label>
+        <input type="number" name="price" value={formData.price} onChange={handleChange} required min="0" />
 
-        <div className="mb-3">
-          <label className="form-label">Max Guests</label>
-          <input
-            type="number"
-            className="form-control"
-            name="maxGuests"
-            value={formData.maxGuests}
-            onChange={handleChange}
-            required
-            min="1"
-          />
-        </div>
+        <label>Max Guests</label>
+        <input type="number" name="maxGuests" value={formData.maxGuests} onChange={handleChange} required min="1" />
 
-        <h5 className="mt-4">Location</h5>
-        <div className="mb-2">
-          <input
-            type="text"
-            className="form-control"
-            name="location.address"
-            placeholder="Address"
-            value={formData.location.address}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="row">
-          <div className="col-md-4 mb-2">
+        <h5>Location</h5>
+        <input type="text" name="location.address" placeholder="Address" value={formData.location.address} onChange={handleChange} />
+        <input type="text" name="location.city" placeholder="City" value={formData.location.city} onChange={handleChange} />
+        <input type="text" name="location.zip" placeholder="ZIP Code" value={formData.location.zip} onChange={handleChange} />
+        <input type="text" name="location.country" placeholder="Country" value={formData.location.country} onChange={handleChange} />
+
+        <h5>Amenities</h5>
+        {["wifi", "parking", "breakfast", "pets"].map((key) => (
+          <div className="form-check" key={key}>
             <input
-              type="text"
-              className="form-control"
-              name="location.city"
-              placeholder="City"
-              value={formData.location.city}
+              className="form-check-input"
+              type="checkbox"
+              name={`meta.${key}`}
+              id={key}
+              checked={formData.meta[key]}
               onChange={handleChange}
             />
+            <label className="form-check-label" htmlFor={key}>
+              {key.charAt(0).toUpperCase() + key.slice(1)}
+            </label>
           </div>
-          <div className="col-md-4 mb-2">
-            <input
-              type="text"
-              className="form-control"
-              name="location.zip"
-              placeholder="ZIP Code"
-              value={formData.location.zip}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col-md-4 mb-2">
-            <input
-              type="text"
-              className="form-control"
-              name="location.country"
-              placeholder="Country"
-              value={formData.location.country}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
-        <h5 className="mt-4">Amenities</h5>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="meta.wifi"
-            id="wifi"
-            checked={formData.meta.wifi}
-            onChange={handleChange}
-          />
-          <label className="form-check-label" htmlFor="wifi">Wi-Fi</label>
-        </div>
-
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="meta.parking"
-            id="parking"
-            checked={formData.meta.parking}
-            onChange={handleChange}
-          />
-          <label className="form-check-label" htmlFor="parking">Parking</label>
-        </div>
-
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="meta.breakfast"
-            id="breakfast"
-            checked={formData.meta.breakfast}
-            onChange={handleChange}
-          />
-          <label className="form-check-label" htmlFor="breakfast">Breakfast Included</label>
-        </div>
-
-        <div className="form-check mb-3">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="meta.pets"
-            id="pets"
-            checked={formData.meta.pets}
-            onChange={handleChange}
-          />
-          <label className="form-check-label" htmlFor="pets">Pet Friendly</label>
-        </div>
+        ))}
 
         <button type="submit" className="btn btn-success mt-3">
           Create Venue
