@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { deleteVenue } from '../../services/api';
 import { API_BASE } from '../../utils/constants';
 import { getHeaders } from '../../utils/headers';
+import styles from './EditVenuePage.module.scss';
 
 export default function EditVenuePage() {
   const { id } = useParams();
@@ -16,6 +17,13 @@ export default function EditVenuePage() {
     media: '',
     price: '',
     maxGuests: '',
+    locationLabel: '',
+    location: {
+      address: '',
+      city: '',
+      zip: '',
+      country: '',
+    },
     meta: {
       wifi: false,
       parking: false,
@@ -36,6 +44,13 @@ export default function EditVenuePage() {
           media: data.media?.[0]?.url || '',
           price: data.price,
           maxGuests: data.maxGuests,
+          locationLabel: data.location?.label || '',
+          location: {
+            address: data.location?.address || '',
+            city: data.location?.city || '',
+            zip: data.location?.zip || '',
+            country: data.location?.country || '',
+          },
           meta: {
             wifi: data.meta?.wifi || false,
             parking: data.meta?.parking || false,
@@ -57,17 +72,20 @@ export default function EditVenuePage() {
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
 
-    if (name.startsWith('meta.')) {
+    if (name.startsWith('location.')) {
+      const field = name.split('.')[1];
+      setFormData((prev) => ({
+        ...prev,
+        location: { ...prev.location, [field]: value },
+      }));
+    } else if (name.startsWith('meta.')) {
       const field = name.split('.')[1];
       setFormData((prev) => ({
         ...prev,
         meta: { ...prev.meta, [field]: checked },
       }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   }
 
@@ -85,6 +103,10 @@ export default function EditVenuePage() {
       ],
       price: Number(formData.price),
       maxGuests: Number(formData.maxGuests),
+      location: {
+        ...formData.location,
+        label: formData.locationLabel,
+      },
       meta: formData.meta,
     };
 
@@ -122,128 +144,50 @@ export default function EditVenuePage() {
   if (loading || !venue) return <p className="text-center mt-4">Loading venue...</p>;
 
   return (
-    <div className="container py-4">
+    <div className={styles.venueFormPage}>
       <h2>Edit Venue</h2>
-      <form onSubmit={handleSubmit} className="mt-4">
-        <div className="mb-3">
-          <label className="form-label">Name</label>
-          <input
-            type="text"
-            className="form-control"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <form onSubmit={handleSubmit}>
+        <label>Name</label>
+        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
 
-        <div className="mb-3">
-          <label className="form-label">Description</label>
-          <textarea
-            className="form-control"
-            name="description"
-            rows="4"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          ></textarea>
-        </div>
+        <label>Description</label>
+        <textarea name="description" rows="4" value={formData.description} onChange={handleChange} required />
 
-        <div className="mb-3">
-          <label className="form-label">Image URL</label>
-          <input
-            type="url"
-            className="form-control"
-            name="media"
-            value={formData.media}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <label>Image URL</label>
+        <input type="url" name="media" value={formData.media} onChange={handleChange} required />
 
-        <div className="mb-3">
-          <label className="form-label">Price</label>
-          <input
-            type="number"
-            className="form-control"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            min="0"
-          />
-        </div>
+        <label>Price</label>
+        <input type="number" name="price" value={formData.price} onChange={handleChange} required min="0" />
 
-        <div className="mb-3">
-          <label className="form-label">Max Guests</label>
-          <input
-            type="number"
-            className="form-control"
-            name="maxGuests"
-            value={formData.maxGuests}
-            onChange={handleChange}
-            required
-            min="1"
-          />
-        </div>
+        <label>Max Guests</label>
+        <input type="number" name="maxGuests" value={formData.maxGuests} onChange={handleChange} required min="1" />
 
-        <h5 className="mt-4">Amenities</h5>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="meta.wifi"
-            id="wifi"
-            checked={formData.meta.wifi}
-            onChange={handleChange}
-          />
-          <label className="form-check-label" htmlFor="wifi">Wi-Fi</label>
-        </div>
+        <h5>Location</h5>
+        <input type="text" name="locationLabel" placeholder="Short label" value={formData.locationLabel} onChange={handleChange} />
+        <input type="text" name="location.address" placeholder="Address" value={formData.location.address} onChange={handleChange} />
+        <input type="text" name="location.city" placeholder="City" value={formData.location.city} onChange={handleChange} />
+        <input type="text" name="location.zip" placeholder="ZIP" value={formData.location.zip} onChange={handleChange} />
+        <input type="text" name="location.country" placeholder="Country" value={formData.location.country} onChange={handleChange} />
 
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="meta.parking"
-            id="parking"
-            checked={formData.meta.parking}
-            onChange={handleChange}
-          />
-          <label className="form-check-label" htmlFor="parking">Parking</label>
-        </div>
-
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="meta.breakfast"
-            id="breakfast"
-            checked={formData.meta.breakfast}
-            onChange={handleChange}
-          />
-          <label className="form-check-label" htmlFor="breakfast">Breakfast Included</label>
-        </div>
-
-        <div className="form-check mb-3">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="meta.pets"
-            id="pets"
-            checked={formData.meta.pets}
-            onChange={handleChange}
-          />
-          <label className="form-check-label" htmlFor="pets">Pet Friendly</label>
-        </div>
+        <h5>Amenities</h5>
+        {['wifi', 'parking', 'breakfast', 'pets'].map((key) => (
+          <div className="form-check" key={key}>
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id={key}
+              name={`meta.${key}`}
+              checked={formData.meta[key]}
+              onChange={handleChange}
+            />
+            <label className="form-check-label" htmlFor={key}>
+              {key.charAt(0).toUpperCase() + key.slice(1)}
+            </label>
+          </div>
+        ))}
 
         <button type="submit" className="btn btn-primary">Save Changes</button>
-        <button
-          type="button"
-          className="btn btn-danger ms-2"
-          onClick={handleDelete}
-        >
-          Delete Venue
-        </button>
+        <button type="button" className="btn btn-danger ms-2" onClick={handleDelete}>Delete Venue</button>
       </form>
     </div>
   );
