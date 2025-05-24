@@ -13,7 +13,7 @@
 
 import { useState } from 'react';
 import { registerUser } from '../../api/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function RegisterPage() {
   /**
@@ -199,6 +199,10 @@ export default function RegisterPage() {
             {error && <div className="alert alert-danger mt-3">{error}</div>}
             {success && <div className="alert alert-success mt-3">{success}</div>}
           </form>
+          <div className="text-center mt-3">
+            <span>Already have an account? </span>
+            <Link to="/login">Login here</Link>
+          </div>
         </div>
       </div>
     </div>
