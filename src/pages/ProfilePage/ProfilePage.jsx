@@ -1,9 +1,20 @@
 import { useEffect, useState } from 'react';
 import { getUser } from '../../utils/storage';
-import { fetchProfile, updateAvatar, deleteVenue, cancelBooking } from '../../services/api';
+import {
+  fetchProfile,
+  updateAvatar,
+  deleteVenue,
+  cancelBooking,
+} from '../../services/api';
 import styles from './ProfilePage.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 
+/**
+ * ProfilePage component displays user profile details, avatar update form,
+ * upcoming bookings (if user is a customer), user's venues, and bookings on those venues (if user is a venue manager).
+ *
+ * @returns {JSX.Element} The rendered profile page.
+ */
 export default function ProfilePage() {
   const navigate = useNavigate();
   const user = getUser();
@@ -27,6 +38,9 @@ export default function ProfilePage() {
     loadProfile();
   }, [user, navigate]);
 
+  /**
+   * Handles avatar image URL update.
+   */
   async function handleAvatarUpdate(e) {
     e.preventDefault();
     const updated = await updateAvatar(user.name, avatarUrl);
@@ -34,15 +48,18 @@ export default function ProfilePage() {
     alert('Avatar updated!');
   }
 
+  /**
+   * Deletes a venue the user manages.
+   * @param {string} venueId - The ID of the venue to delete.
+   */
   async function handleDelete(venueId) {
     if (!window.confirm('Are you sure you want to delete this venue?')) return;
-
     try {
       await deleteVenue(venueId);
       alert('Venue deleted');
-      setProfile(prev => ({
+      setProfile((prev) => ({
         ...prev,
-        venues: prev.venues.filter(v => v.id !== venueId),
+        venues: prev.venues.filter((v) => v.id !== venueId),
       }));
     } catch (error) {
       alert('Failed to delete venue.');
@@ -50,15 +67,18 @@ export default function ProfilePage() {
     }
   }
 
+  /**
+   * Cancels a booking made by the user.
+   * @param {string} bookingId - The ID of the booking to cancel.
+   */
   async function handleCancelBooking(bookingId) {
     if (!window.confirm('Are you sure you want to cancel this booking?')) return;
-
     try {
       await cancelBooking(bookingId);
       alert('Booking cancelled');
-      setProfile(prev => ({
+      setProfile((prev) => ({
         ...prev,
-        bookings: prev.bookings.filter(b => b.id !== bookingId),
+        bookings: prev.bookings.filter((b) => b.id !== bookingId),
       }));
     } catch (error) {
       alert('Failed to cancel booking.');
@@ -70,16 +90,16 @@ export default function ProfilePage() {
 
   return (
     <div className={`container ${styles.profilePage}`}>
-      {/* Top Section */}
+      {/* Profile Header */}
       <div className="row align-items-center mb-4">
-        <div className="col-md-3 text-center position-relative">
+        <div className="col-md-3 text-center">
           <img
             src={avatarUrl || 'https://via.placeholder.com/140'}
             alt={profile.avatar?.alt || 'Avatar'}
             className="rounded-circle img-fluid shadow"
             style={{ width: '140px', height: '140px', objectFit: 'cover' }}
           />
-          <label htmlFor="avatarUrl" className="btn btn-sm btn-outline-primary mt-2 d-block">
+          <label htmlFor="avatarUrl" className="btn btn-sm btn-outline-primary mt-2">
             Update Avatar
           </label>
           <form onSubmit={handleAvatarUpdate} className="mt-2">
@@ -101,88 +121,71 @@ export default function ProfilePage() {
         <div className="col-md-6">
           <h2 className="mb-1">{profile.name}</h2>
           <p>Email: {profile.email}</p>
-          <p>Bookings: {profile._count?.bookings} | Venues: {profile._count?.venues}</p>
+          <p>
+            Bookings: {profile._count?.bookings} | Venues: {profile._count?.venues}
+          </p>
         </div>
       </div>
 
-      {/* Upcoming Bookings */}
-      <div className="mb-4">
-        <div className="d-flex justify-content-between align-items-center mb-2">
-          <h4>Upcoming Bookings</h4>
-          <Link to="/bookings" className="btn btn-sm btn-outline-secondary">View All</Link>
-        </div>
-        <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3">
-          {profile.bookings?.slice(0, 4).map((booking) => (
-            <div key={booking.id} className="col">
-              <div className={`card ${styles.bookingCard}`}>
-                <img
-                  src={booking.venue?.media[0]?.url}
-                  className="card-img-top"
-                  alt={booking.venue?.name}
-                />
-                <div className="card-body">
-                  <h6 className="card-title">{booking.venue?.name}</h6>
-                  <p className="card-text small mb-0">
-                    {new Date(booking.dateFrom).toLocaleDateString()} → {new Date(booking.dateTo).toLocaleDateString()}
-                  </p>
-                  <button
-                    className="btn btn-sm btn-outline-danger mt-2"
-                    onClick={() => handleCancelBooking(booking.id)}
-                  >
-                    Cancel Booking
-                  </button>
+      {/* Upcoming Bookings (Customer) */}
+      {profile.bookings?.length > 0 && (
+        <section className="mb-5">
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h4>Upcoming Booked Venues</h4>
+            <Link to="/bookings" className="btn btn-sm btn-outline-secondary">View All</Link>
+          </div>
+          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {profile.bookings.map((booking) => (
+              <div key={booking.id} className="col">
+                <div className={`card ${styles.bookingCard}`}>
+                  <img
+                    src={booking.venue?.media[0]?.url || 'https://via.placeholder.com/300'}
+                    className="card-img-top"
+                    alt={booking.venue?.name}
+                  />
+                  <div className="card-body">
+                    <h6 className="card-title">{booking.venue?.name}</h6>
+                    <p className="card-text small mb-1">
+                      {new Date(booking.dateFrom).toLocaleDateString()} → {new Date(booking.dateTo).toLocaleDateString()}
+                    </p>
+                    <button
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={() => handleCancelBooking(booking.id)}
+                    >
+                      Cancel Booking
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* My Venues */}
       {profile.venueManager && (
-        <div>
+        <section className="mb-5">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h4 className="mb-0 d-flex align-items-center gap-2">
-              My Venues
-              <Link to={`/venues/my`} className="btn btn-link ms-2 p-0 align-baseline">
-                View All My Venues
-              </Link>
-            </h4>
+            <h4>My Venues</h4>
             <Link to="/venues/create" className="btn btn-sm btn-success">+ Create Venue</Link>
           </div>
-
           {profile.venues?.length ? (
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
               {profile.venues.map((venue) => (
                 <div key={venue.id} className="col">
                   <div className={`card ${styles.venueCard}`}>
-                    <Link to={`/venue/${venue.id}`}>
-                      <img
-                        src={venue.media[0]?.url}
-                        className="card-img-top"
-                        alt={venue.name}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </Link>
+                    <img
+                      src={venue.media[0]?.url || 'https://via.placeholder.com/300'}
+                      className="card-img-top"
+                      alt={venue.name}
+                    />
                     <div className="card-body">
-                      <h5 className="card-title">
-                        <Link to={`/venue/${venue.id}`} className="text-decoration-none">
-                          {venue.name}
-                        </Link>
-                      </h5>
-                      <p className="card-text small">Hosted by {venue.owner?.name}</p>
+                      <h5 className="card-title">{venue.name}</h5>
                       <p className="card-text small">Location: {venue.location?.city}</p>
                       <p className="card-text">${venue.price} / night</p>
-                      <div className="d-flex gap-2 mt-2">
-                        <Link to={`/venues/edit/${venue.id}`} className="btn btn-sm btn-outline-primary">
-                          Edit
-                        </Link>
-                        <button
-                          className="btn btn-sm btn-danger"
-                          onClick={() => handleDelete(venue.id)}
-                        >
-                          Delete
-                        </button>
+                      <div className="d-flex gap-2">
+                        <Link to={`/venues/edit/${venue.id}`} className="btn btn-sm btn-outline-primary">Edit</Link>
+                        <button onClick={() => handleDelete(venue.id)} className="btn btn-sm btn-danger">Delete</button>
                       </div>
                     </div>
                   </div>
@@ -192,14 +195,14 @@ export default function ProfilePage() {
           ) : (
             <p>You haven’t created any venues yet.</p>
           )}
-        </div>
+        </section>
       )}
 
       {/* Bookings on My Venues */}
       {profile.venueManager && profile.venues?.some(v => v.bookings?.length > 0) && (
-        <div className="mt-5">
-          <h4>Bookings on My Venues</h4>
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        <section>
+          <h4 className="mb-3">Bookings on My Venues</h4>
+          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {profile.venues.flatMap((venue) =>
               (venue.bookings || []).map((booking) => (
                 <div key={booking.id} className="col">
@@ -211,17 +214,17 @@ export default function ProfilePage() {
                     />
                     <div className="card-body">
                       <h6 className="card-title">{venue.name}</h6>
-                      <p className="card-text small mb-0">
+                      <p className="card-text small mb-1">
                         {new Date(booking.dateFrom).toLocaleDateString()} → {new Date(booking.dateTo).toLocaleDateString()}
                       </p>
-                      <p className="card-text small">Booked by: {booking.customer?.name || 'Unknown guest'}</p>
+                      <p className="card-text small">Booked by: {booking.customer?.name || 'Unknown'}</p>
                     </div>
                   </div>
                 </div>
               ))
             )}
           </div>
-        </div>
+        </section>
       )}
     </div>
   );
