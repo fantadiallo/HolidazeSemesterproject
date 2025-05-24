@@ -1,0 +1,86 @@
+@use '../../styles/variables' as *;
+
+.venueFormPage {
+ @extend .formBox !optional;
+
+
+  h2 {
+    color: $primary;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+
+  form {
+    background-color: $light;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: $dark;
+      display: block;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid $gray-light;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      background-color: $white;
+    }
+
+    .form-check {
+      margin-bottom: 1rem;
+
+      input[type='checkbox'] {
+        margin-right: 0.5rem;
+      }
+
+      label {
+        color: $secondary;
+        font-size: 0.95rem;
+        display: inline;
+        font-weight: normal;
+      }
+    }
+
+    .btn {
+      padding: 0.65rem 1.25rem;
+      font-weight: 600;
+      border-radius: 6px;
+
+      &.btn-success {
+        background-color: $primary;
+        border-color: $primary;
+        color: $white;
+
+        &:hover {
+          background-color: darken($primary, 10%);
+        }
+      }
+
+      &.btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: $white;
+
+        &:hover {
+          background-color: darken(#dc3545, 10%);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    form {
+      padding: 1.25rem;
+    }
+  }
+}
