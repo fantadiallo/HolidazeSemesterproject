@@ -1,23 +1,28 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { getUser, logout } from "../../utils/storage";
 import styles from "./Header.module.scss";
+import { useState } from "react";
 
-/**
- * Header Component
- * Renders the site header with navigation links, logo, and user menu.
- * Displays different navigation options based on user authentication and role.
- * @returns {JSX.Element} The rendered Header component.
- */
 export default function Header() {
   const user = getUser();
   const isVenueManager = user?.venueManager;
+  const navigate = useNavigate();
 
-  /**
-   * Handles user logout and redirects to the home page.
-   */
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+
   function handleLogout() {
     logout();
     window.location.href = "/";
+  }
+
+  function handleSearch(e) {
+    e.preventDefault();
+    if (checkIn && checkOut) {
+      navigate(`/search?checkIn=${checkIn}&checkOut=${checkOut}`);
+    } else {
+      alert("Please select both check-in and check-out dates.");
+    }
   }
 
   return (
@@ -31,7 +36,6 @@ export default function Header() {
           <NavLink to="/" className="navbar-brand d-flex align-items-center">
             <span className={styles.logoContainer}>
               <img src="/HolidazeLogo.png" alt="logo" className={styles.logo} />
-            
             </span>
           </NavLink>
 
@@ -45,19 +49,28 @@ export default function Header() {
           </button>
 
           <div className="collapse navbar-collapse" id="mainNavbar">
-            <ul className="navbar-nav mx-auto">
-              <li className="nav-item">
-                <NavLink
-                  to="/"
-                  className={({ isActive }) =>
-                    `nav-link text-white${isActive ? ' active' : ''}`
-                  }
-                >
-                  Book stay
-                </NavLink>
-              </li>
-            </ul>
+            {/* Search Form */}
+            <form className="d-flex mx-auto gap-2" onSubmit={handleSearch}>
+              <input
+                type="date"
+                className="form-control"
+                value={checkIn}
+                onChange={(e) => setCheckIn(e.target.value)}
+                placeholder="Check in"
+                required
+              />
+              <input
+                type="date"
+                className="form-control"
+                value={checkOut}
+                onChange={(e) => setCheckOut(e.target.value)}
+                placeholder="Check out"
+                required
+              />
+              <button type="submit" className="btn btn-light">Search</button>
+            </form>
 
+            {/* User Menu */}
             <ul className="navbar-nav ms-auto">
               {user ? (
                 <li className="nav-item dropdown">
@@ -110,4 +123,3 @@ export default function Header() {
     </header>
   );
 }
-
