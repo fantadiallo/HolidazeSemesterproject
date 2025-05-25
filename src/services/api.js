@@ -3,9 +3,12 @@ import { getHeaders } from "../utils/headers";
 
 export async function getBookingsByUser(name) {
   try {
-    const res = await fetch(`${API_BASE}/profiles/${name}/bookings?_venue=true`, {
-      headers: getHeaders(true),
-    });
+    const res = await fetch(
+      `${API_BASE}/profiles/${name}/bookings?_venue=true`,
+      {
+        headers: getHeaders(true),
+      },
+    );
 
     const { data } = await res.json();
     return data || [];
@@ -21,7 +24,7 @@ export async function fetchProfile(name) {
       `${API_BASE}/profiles/${name}?_bookings=true&_venues=true&_venues.bookings=true&_venues.owner=true`,
       {
         headers: getHeaders(true),
-      }
+      },
     );
 
     const { data } = await res.json();
@@ -69,7 +72,7 @@ export async function deleteVenue(id) {
  */
 export async function cancelBooking(bookingId) {
   const res = await fetch(`${API_BASE}/bookings/${bookingId}`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: getHeaders(true),
   });
 

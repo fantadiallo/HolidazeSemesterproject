@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { deleteVenue } from '../../services/api';
-import { API_BASE } from '../../utils/constants';
-import { getHeaders } from '../../utils/headers';
-import styles from './EditVenuePage.module.scss';
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { deleteVenue } from "../../services/api";
+import { API_BASE } from "../../utils/constants";
+import { getHeaders } from "../../utils/headers";
+import styles from "./EditVenuePage.module.scss";
 
 /**
  * EditVenuePage Component
@@ -25,17 +25,17 @@ export default function EditVenuePage() {
   const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    media: '',
-    price: '',
-    maxGuests: '',
-    locationLabel: '',
+    name: "",
+    description: "",
+    media: "",
+    price: "",
+    maxGuests: "",
+    locationLabel: "",
     location: {
-      address: '',
-      city: '',
-      zip: '',
-      country: '',
+      address: "",
+      city: "",
+      zip: "",
+      country: "",
     },
     meta: {
       wifi: false,
@@ -54,15 +54,15 @@ export default function EditVenuePage() {
         setFormData({
           name: data.name,
           description: data.description,
-          media: data.media?.[0]?.url || '',
+          media: data.media?.[0]?.url || "",
           price: data.price,
           maxGuests: data.maxGuests,
-          locationLabel: data.location?.label || '',
+          locationLabel: data.location?.label || "",
           location: {
-            address: data.location?.address || '',
-            city: data.location?.city || '',
-            zip: data.location?.zip || '',
-            country: data.location?.country || '',
+            address: data.location?.address || "",
+            city: data.location?.city || "",
+            zip: data.location?.zip || "",
+            country: data.location?.country || "",
           },
           meta: {
             wifi: data.meta?.wifi || false,
@@ -72,7 +72,7 @@ export default function EditVenuePage() {
           },
         });
       } catch (error) {
-        alert('Failed to load venue.');
+        alert("Failed to load venue.");
         console.error(error);
       } finally {
         setLoading(false);
@@ -85,14 +85,14 @@ export default function EditVenuePage() {
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
 
-    if (name.startsWith('location.')) {
-      const field = name.split('.')[1];
+    if (name.startsWith("location.")) {
+      const field = name.split(".")[1];
       setFormData((prev) => ({
         ...prev,
         location: { ...prev.location, [field]: value },
       }));
-    } else if (name.startsWith('meta.')) {
-      const field = name.split('.')[1];
+    } else if (name.startsWith("meta.")) {
+      const field = name.split(".")[1];
       setFormData((prev) => ({
         ...prev,
         meta: { ...prev.meta, [field]: checked },
@@ -111,7 +111,7 @@ export default function EditVenuePage() {
       media: [
         {
           url: formData.media,
-          alt: formData.name || 'Venue image',
+          alt: formData.name || "Venue image",
         },
       ],
       price: Number(formData.price),
@@ -125,65 +125,128 @@ export default function EditVenuePage() {
 
     try {
       const res = await fetch(`${API_BASE}/venues/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: getHeaders(true),
         body: JSON.stringify(updatedVenue),
       });
 
       if (res.ok) {
-        navigate('/profile');
+        navigate("/profile");
       } else {
         const error = await res.json();
-        alert(error.errors?.[0]?.message || 'Failed to update venue');
+        alert(error.errors?.[0]?.message || "Failed to update venue");
       }
     } catch (err) {
-      alert('Something went wrong while saving.');
+      alert("Something went wrong while saving.");
       console.error(err);
     }
   }
 
   async function handleDelete() {
-    if (window.confirm('Are you sure you want to delete this venue?')) {
+    if (window.confirm("Are you sure you want to delete this venue?")) {
       try {
         await deleteVenue(id);
-        navigate('/profile');
+        navigate("/profile");
       } catch (error) {
-        alert('Failed to delete venue.');
+        alert("Failed to delete venue.");
         console.error(error);
       }
     }
   }
 
-  if (loading || !venue) return <p className="text-center mt-4">Loading venue...</p>;
+  if (loading || !venue)
+    return <p className="text-center mt-4">Loading venue...</p>;
 
   return (
     <div className={styles.venueFormPage}>
       <h2>Edit Venue</h2>
       <form onSubmit={handleSubmit}>
         <label>Name</label>
-        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
 
         <label>Description</label>
-        <textarea name="description" rows="4" value={formData.description} onChange={handleChange} required />
+        <textarea
+          name="description"
+          rows="4"
+          value={formData.description}
+          onChange={handleChange}
+          required
+        />
 
         <label>Image URL</label>
-        <input type="url" name="media" value={formData.media} onChange={handleChange} required />
+        <input
+          type="url"
+          name="media"
+          value={formData.media}
+          onChange={handleChange}
+          required
+        />
 
         <label>Price</label>
-        <input type="number" name="price" value={formData.price} onChange={handleChange} required min="0" />
+        <input
+          type="number"
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+          required
+          min="0"
+        />
 
         <label>Max Guests</label>
-        <input type="number" name="maxGuests" value={formData.maxGuests} onChange={handleChange} required min="1" />
+        <input
+          type="number"
+          name="maxGuests"
+          value={formData.maxGuests}
+          onChange={handleChange}
+          required
+          min="1"
+        />
 
         <h5>Location</h5>
-        <input type="text" name="locationLabel" placeholder="Short label" value={formData.locationLabel} onChange={handleChange} />
-        <input type="text" name="location.address" placeholder="Address" value={formData.location.address} onChange={handleChange} />
-        <input type="text" name="location.city" placeholder="City" value={formData.location.city} onChange={handleChange} />
-        <input type="text" name="location.zip" placeholder="ZIP" value={formData.location.zip} onChange={handleChange} />
-        <input type="text" name="location.country" placeholder="Country" value={formData.location.country} onChange={handleChange} />
+        <input
+          type="text"
+          name="locationLabel"
+          placeholder="Short label"
+          value={formData.locationLabel}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="location.address"
+          placeholder="Address"
+          value={formData.location.address}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="location.city"
+          placeholder="City"
+          value={formData.location.city}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="location.zip"
+          placeholder="ZIP"
+          value={formData.location.zip}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="location.country"
+          placeholder="Country"
+          value={formData.location.country}
+          onChange={handleChange}
+        />
 
         <h5>Amenities</h5>
-        {['wifi', 'parking', 'breakfast', 'pets'].map((key) => (
+        {["wifi", "parking", "breakfast", "pets"].map((key) => (
           <div className="form-check" key={key}>
             <input
               type="checkbox"
@@ -199,8 +262,16 @@ export default function EditVenuePage() {
           </div>
         ))}
 
-        <button type="submit" className="btn btn-primary">Save Changes</button>
-        <button type="button" className="btn btn-danger ms-2" onClick={handleDelete}>Delete Venue</button>
+        <button type="submit" className="btn btn-primary">
+          Save Changes
+        </button>
+        <button
+          type="button"
+          className="btn btn-danger ms-2"
+          onClick={handleDelete}
+        >
+          Delete Venue
+        </button>
       </form>
     </div>
   );

@@ -1,19 +1,19 @@
 /**
  * RegisterPage Component
  * Renders a registration form that allows users to sign up as either a Customer or a Venue Manager.
- * 
+ *
  * Features:
  * - Validates email and password input
  * - Supports role selection with explanation (Customer vs Venue Manager)
  * - Handles form submission with loading spinner and success/error feedback
  * - Redirects to login on successful registration
- * 
+ *
  * @returns {JSX.Element} The rendered registration page component.
  */
 
-import { useState } from 'react';
-import { registerUser } from '../../api/auth';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from "react";
+import { registerUser } from "../../api/auth";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function RegisterPage() {
   /**
@@ -26,19 +26,19 @@ export default function RegisterPage() {
 
   /** @type {[FormData, Function]} */
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
     venueManager: false,
   });
 
   const navigate = useNavigate();
 
   /** @type {[string, Function]} */
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   /** @type {[string, Function]} */
-  const [success, setSuccess] = useState('');
+  const [success, setSuccess] = useState("");
 
   /** @type {[boolean, Function]} */
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ export default function RegisterPage() {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   }
 
@@ -72,19 +72,19 @@ export default function RegisterPage() {
    */
   async function handleSubmit(e) {
     e.preventDefault();
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
     setLoading(true);
 
-    if (!formData.email.endsWith('@stud.noroff.no')) {
+    if (!formData.email.endsWith("@stud.noroff.no")) {
       setLoading(false);
-      setError('Email must end with @stud.noroff.no');
+      setError("Email must end with @stud.noroff.no");
       return;
     }
 
     if (formData.password.length < 8) {
       setLoading(false);
-      setError('Password must be at least 8 characters');
+      setError("Password must be at least 8 characters");
       return;
     }
 
@@ -97,10 +97,10 @@ export default function RegisterPage() {
       };
 
       await registerUser(payload);
-      setSuccess('Registration successful! Redirecting to login...');
-      setTimeout(() => navigate('/login'), 1500);
+      setSuccess("Registration successful! Redirecting to login...");
+      setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
-      setError(err.message || 'Something went wrong');
+      setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -185,19 +185,29 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-primary w-100"
+              disabled={loading}
+            >
               {loading ? (
                 <>
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  <span
+                    className="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
                   Registering...
                 </>
               ) : (
-                'Register'
+                "Register"
               )}
             </button>
 
             {error && <div className="alert alert-danger mt-3">{error}</div>}
-            {success && <div className="alert alert-success mt-3">{success}</div>}
+            {success && (
+              <div className="alert alert-success mt-3">{success}</div>
+            )}
           </form>
           <div className="text-center mt-3">
             <span>Already have an account? </span>

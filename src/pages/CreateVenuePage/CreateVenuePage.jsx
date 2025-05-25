@@ -98,25 +98,81 @@ export default function CreateVenuePage() {
       <h2>Create Venue</h2>
       <form onSubmit={handleSubmit}>
         <label>Venue Name</label>
-        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
 
         <label>Description</label>
-        <textarea name="description" rows="4" value={formData.description} onChange={handleChange} required />
+        <textarea
+          name="description"
+          rows="4"
+          value={formData.description}
+          onChange={handleChange}
+          required
+        />
 
         <label>Image URL</label>
-        <input type="url" name="media" value={formData.media} onChange={handleChange} required />
+        <input
+          type="url"
+          name="media"
+          value={formData.media}
+          onChange={handleChange}
+          required
+        />
 
         <label>Price per night</label>
-        <input type="number" name="price" value={formData.price} onChange={handleChange} required min="0" />
+        <input
+          type="number"
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+          required
+          min="0"
+        />
 
         <label>Max Guests</label>
-        <input type="number" name="maxGuests" value={formData.maxGuests} onChange={handleChange} required min="1" />
+        <input
+          type="number"
+          name="maxGuests"
+          value={formData.maxGuests}
+          onChange={handleChange}
+          required
+          min="1"
+        />
 
         <h5>Location</h5>
-        <input type="text" name="location.address" placeholder="Address" value={formData.location.address} onChange={handleChange} />
-        <input type="text" name="location.city" placeholder="City" value={formData.location.city} onChange={handleChange} />
-        <input type="text" name="location.zip" placeholder="ZIP Code" value={formData.location.zip} onChange={handleChange} />
-        <input type="text" name="location.country" placeholder="Country" value={formData.location.country} onChange={handleChange} />
+        <input
+          type="text"
+          name="location.address"
+          placeholder="Address"
+          value={formData.location.address}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="location.city"
+          placeholder="City"
+          value={formData.location.city}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="location.zip"
+          placeholder="ZIP Code"
+          value={formData.location.zip}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="location.country"
+          placeholder="Country"
+          value={formData.location.country}
+          onChange={handleChange}
+        />
 
         <h5>Amenities</h5>
         {["wifi", "parking", "breakfast", "pets"].map((key) => (

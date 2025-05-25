@@ -1,6 +1,6 @@
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { isLoggedIn } from './storage';
+import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { isLoggedIn } from "./storage";
 
 /**
  * Higher-order component for protecting routes that require authentication.

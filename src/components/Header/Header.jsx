@@ -78,7 +78,9 @@ export default function Header() {
                 placeholder="Check out"
                 required
               />
-              <button type="submit" className="btn btn-light">Search</button>
+              <button type="submit" className="btn btn-light">
+                Search
+              </button>
             </form>
 
             {/* User Menu */}
@@ -95,35 +97,55 @@ export default function Header() {
                   >
                     <i className="bi bi-person-circle fs-5" />
                   </a>
-                  <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                  <ul
+                    className="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="profileDropdown"
+                  >
                     <li>
-                      <NavLink className="dropdown-item" to="/profile">Profile</NavLink>
+                      <NavLink className="dropdown-item" to="/profile">
+                        Profile
+                      </NavLink>
                     </li>
                     <li>
-                      <NavLink className="dropdown-item" to="/bookings">My Bookings</NavLink>
+                      <NavLink className="dropdown-item" to="/bookings">
+                        My Bookings
+                      </NavLink>
                     </li>
                     {isVenueManager && (
                       <>
                         <li>
-                          <NavLink className="dropdown-item" to="/venues/create">Create Venue</NavLink>
+                          <NavLink
+                            className="dropdown-item"
+                            to="/venues/create"
+                          >
+                            Create Venue
+                          </NavLink>
                         </li>
                         <li>
-                          <NavLink className="dropdown-item" to="/venues/my">My Venues</NavLink>
+                          <NavLink className="dropdown-item" to="/venues/my">
+                            My Venues
+                          </NavLink>
                         </li>
                       </>
                     )}
                     <li>
-                      <button className="dropdown-item" onClick={handleLogout}>Logout</button>
+                      <button className="dropdown-item" onClick={handleLogout}>
+                        Logout
+                      </button>
                     </li>
                   </ul>
                 </li>
               ) : (
                 <>
                   <li className="nav-item">
-                    <NavLink to="/login" className="nav-link text-white">Login</NavLink>
+                    <NavLink to="/login" className="nav-link text-white">
+                      Login
+                    </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/register" className="nav-link text-white">Register</NavLink>
+                    <NavLink to="/register" className="nav-link text-white">
+                      Register
+                    </NavLink>
                   </li>
                 </>
               )}

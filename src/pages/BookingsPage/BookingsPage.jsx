@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { getUser } from '../../utils/storage';
-import { getBookingsByUser } from '../../services/api'; 
-import styles from './BookingsPage.module.scss';
+import { useEffect, useState } from "react";
+import { getUser } from "../../utils/storage";
+import { getBookingsByUser } from "../../services/api";
+import styles from "./BookingsPage.module.scss";
 
 /**
  * BookingsPage Component
@@ -45,7 +45,7 @@ export default function BookingsPage() {
             <div>
               <h5>{booking.venue?.name}</h5>
               <p>
-                {new Date(booking.dateFrom).toLocaleDateString()} →{' '}
+                {new Date(booking.dateFrom).toLocaleDateString()} →{" "}
                 {new Date(booking.dateTo).toLocaleDateString()}
               </p>
               <p>Guests: {booking.guests}</p>

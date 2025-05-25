@@ -1,4 +1,4 @@
-import styles from './TopBanner.module.scss';
+import styles from "./TopBanner.module.scss";
 
 /**
  * TopBanner Component

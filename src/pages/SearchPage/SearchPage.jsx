@@ -41,7 +41,9 @@ export default function SearchPage() {
             <div key={venue.id} className="col">
               <div className="card h-100">
                 <img
-                  src={venue.media?.[0]?.url || "https://via.placeholder.com/300"}
+                  src={
+                    venue.media?.[0]?.url || "https://via.placeholder.com/300"
+                  }
                   className="card-img-top"
                   alt={venue.name}
                 />
@@ -51,7 +53,10 @@ export default function SearchPage() {
                   <p className="card-text">
                     <strong>${venue.price}</strong> / night
                   </p>
-                  <a href={`/venue/${venue.id}`} className="btn btn-primary btn-sm">
+                  <a
+                    href={`/venue/${venue.id}`}
+                    className="btn btn-primary btn-sm"
+                  >
                     View Details
                   </a>
                 </div>

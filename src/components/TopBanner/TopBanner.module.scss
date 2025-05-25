@@ -1,24 +1,24 @@
-@use '../../styles/variables' as *;
+@use "../../styles/variables" as *;
 
 .topBanner {
   background-color: $blue-primary;
   color: $white;
   text-align: center;
   padding: 3rem 1rem 2rem;
-  margin: 0; 
-  border-top: none; 
+  margin: 0;
+  border-top: none;
 }
-
 
 .subtitle {
   font-size: 4rem;
   text-align: center;
   font-weight: 600;
-  font-family: 'Pacifico', cursive, 'Playfair Display', serif; // Use a cursive font
+  font-family:
+    "Pacifico", cursive, "Playfair Display", serif; // Use a cursive font
   letter-spacing: 2px;
   margin-bottom: 0.5rem;
   color: $white;
-  animation: fadeInSlide 1.2s cubic-bezier(0.4,0,0.2,1);
+  animation: fadeInSlide 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (max-width: 900px) {
     font-size: 3rem;
@@ -38,4 +38,3 @@
     transform: translateY(0) scale(1);
   }
 }
-

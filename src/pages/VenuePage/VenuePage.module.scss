@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+@use "../../styles/variables" as *;
 
 .venuePage {
   display: flex;
@@ -140,7 +140,9 @@
       font-size: 1rem;
       border: none;
       border-radius: 8px;
-      transition: background-color 0.3s, transform 0.2s;
+      transition:
+        background-color 0.3s,
+        transform 0.2s;
 
       &:hover {
         background-color: darken($primary, 10%);
@@ -157,7 +159,7 @@
 .bookingBox {
   .rdrCalendarWrapper {
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   }
 
   .rdrDayDisabled {

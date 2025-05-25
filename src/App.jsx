@@ -18,20 +18,19 @@
  * @returns {JSX.Element} The rendered App component with routing and guards.
  */
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout/Layout';
-import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
-import HomePage from './pages/HomePage/HomePage';
-import LoginPage from './pages/LoginPage/LoginPage';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
-import ProfilePage from './pages/ProfilePage/ProfilePage';
-import VenuePage from './pages/VenuePage/VenuePage';
-import BookingsPage from './pages/BookingsPage/BookingsPage';
-import CreateVenuePage from './pages/CreateVenuePage/CreateVenuePage';
-import EditVenuePage from './pages/EditVenuePage/EditVenuePage';
-import SearchPage from './pages/SearchPage/SearchPage';
-import authGuard from './utils/authGuard';
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import HomePage from "./pages/HomePage/HomePage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import VenuePage from "./pages/VenuePage/VenuePage";
+import BookingsPage from "./pages/BookingsPage/BookingsPage";
+import CreateVenuePage from "./pages/CreateVenuePage/CreateVenuePage";
+import EditVenuePage from "./pages/EditVenuePage/EditVenuePage";
+import SearchPage from "./pages/SearchPage/SearchPage";
+import authGuard from "./utils/authGuard";
 
 const ProtectedProfile = authGuard(ProfilePage);
 const ProtectedBookings = authGuard(BookingsPage);

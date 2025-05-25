@@ -1,5 +1,5 @@
-const USER_KEY = 'user';
-const TOKEN_KEY = 'token';
+const USER_KEY = "user";
+const TOKEN_KEY = "token";
 
 /**
  * Saves the user object and token to localStorage.

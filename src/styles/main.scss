@@ -1,16 +1,15 @@
-@use './variables' as *;
+@use "./variables" as *;
 
-@use 'bootstrap/scss/bootstrap' with (
+@use "bootstrap/scss/bootstrap" with (
   $primary: $blue-primary,
   $secondary: $gray-blue,
   $light: $gray-bg,
   $dark: $gray-dark
 );
-@use './buttons' as *;
-
+@use "./buttons" as *;
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: $gray-bg;
   color: $gray-dark;
   padding: 0;
@@ -18,7 +17,6 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
-
 
 .formBox {
   max-width: 600px;

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa';
-import styles from './VenueSection.module.scss';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
+import styles from "./VenueSection.module.scss";
 
-const filters = ['wifi', 'parking', 'breakfast', 'pets'];
+const filters = ["wifi", "parking", "breakfast", "pets"];
 
 /**
  * VenueSection Component
@@ -12,8 +12,8 @@ const filters = ['wifi', 'parking', 'breakfast', 'pets'];
  */
 export default function VenueSection() {
   const [venues, setVenues] = useState([]);
-  const [search, setSearch] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('');
+  const [search, setSearch] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("");
   const [showScroll, setShowScroll] = useState(false);
 
   /**
@@ -22,7 +22,7 @@ export default function VenueSection() {
   useEffect(() => {
     async function fetchVenues() {
       const response = await fetch(
-        'https://v2.api.noroff.dev/holidaze/venues?_owner=true&_bookings=true'
+        "https://v2.api.noroff.dev/holidaze/venues?_owner=true&_bookings=true",
       );
       const result = await response.json();
       setVenues(result.data);
@@ -37,15 +37,15 @@ export default function VenueSection() {
     function handleScroll() {
       setShowScroll(window.scrollY > 300);
     }
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   /**
    * Scrolls the window to the top.
    */
   function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   /**
@@ -72,7 +72,11 @@ export default function VenueSection() {
             onChange={(e) => setSearch(e.target.value)}
             className={styles.searchInput}
           />
-          <button className={styles.searchButton} type="button" aria-label="Search">
+          <button
+            className={styles.searchButton}
+            type="button"
+            aria-label="Search"
+          >
             <FaSearch />
           </button>
         </div>
@@ -85,10 +89,10 @@ export default function VenueSection() {
             className={`
               ${styles.filterButton}
               ${styles[filter]}
-              ${selectedFilter === filter ? styles.active : ''}
+              ${selectedFilter === filter ? styles.active : ""}
             `}
             onClick={() =>
-              setSelectedFilter(selectedFilter === filter ? '' : filter)
+              setSelectedFilter(selectedFilter === filter ? "" : filter)
             }
           >
             {filter.charAt(0).toUpperCase() + filter.slice(1)}
@@ -99,7 +103,10 @@ export default function VenueSection() {
       <div className={styles.grid}>
         {filteredVenues.map((venue) => (
           <div key={venue.id} className={styles.card}>
-            <img src={venue.media[0]?.url} alt={venue.media[0]?.alt || venue.name} />
+            <img
+              src={venue.media[0]?.url}
+              alt={venue.media[0]?.alt || venue.name}
+            />
             <h5>{venue.name}</h5>
             <p>Hosted by: {venue.owner?.name}</p>
             <p>Location: {venue.location?.city}</p>

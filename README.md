@@ -33,4 +33,3 @@ Holidaze is a responsive accommodation booking web application developed using R
 - **Form Handling**: Native HTML5 validation with custom styles
 
 ## Folder Structure
-

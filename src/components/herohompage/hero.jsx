@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import styles from './Hero.module.scss';
+import { Link } from "react-router-dom";
+import styles from "./Hero.module.scss";
 
 /**
  * Hero Component

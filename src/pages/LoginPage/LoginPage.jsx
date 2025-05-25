@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { loginUser } from '../../api/auth';
-import { saveUser } from '../../utils/storage';
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "../../api/auth";
+import { saveUser } from "../../utils/storage";
 
 /**
  * LoginPage Component
@@ -11,23 +11,23 @@ import { saveUser } from '../../utils/storage';
  * @returns {JSX.Element} The rendered LoginPage component.
  */
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       const res = await loginUser({ email, password });
       saveUser(res.data, res.data.accessToken);
-      navigate('/profile');
+      navigate("/profile");
     } catch (err) {
-      setError(err.message || 'Login failed. Please try again.');
+      setError(err.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -61,14 +61,22 @@ export default function LoginPage() {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-primary w-100"
+              disabled={loading}
+            >
               {loading ? (
                 <>
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  <span
+                    className="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
                   Logging in...
                 </>
               ) : (
-                'Login'
+                "Login"
               )}
             </button>
 

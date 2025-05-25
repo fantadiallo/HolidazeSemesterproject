@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+@use "../../styles/variables" as *;
 .layout {
   display: flex;
   flex-direction: column;
@@ -6,7 +6,6 @@
 
   main {
     flex: 1;
-    padding: 0
+    padding: 0;
   }
-    }
-
+}

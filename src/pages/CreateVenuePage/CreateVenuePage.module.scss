@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+@use "../../styles/variables" as *;
 
 .venueFormPage {
   @extend .formBox !optional;
@@ -38,7 +38,7 @@
     .form-check {
       margin-bottom: 1rem;
 
-      input[type='checkbox'] {
+      input[type="checkbox"] {
         margin-right: 0.5rem;
       }
 

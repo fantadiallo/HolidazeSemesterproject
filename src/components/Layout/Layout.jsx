@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-import styles from './Layout.module.scss';
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import styles from "./Layout.module.scss";
 
 /**
  * Layout Component
@@ -10,13 +10,13 @@ import styles from './Layout.module.scss';
  * @returns {JSX.Element} The rendered Layout component.
  */
 export default function Layout() {
-    return (
-        <div className={styles.layout}>
-            <Header />
-            <main className={styles.main}>
-                <Outlet />
-            </main>
-            <Footer />
-        </div>
-    );
+  return (
+    <div className={styles.layout}>
+      <Header />
+      <main className={styles.main}>
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
 }

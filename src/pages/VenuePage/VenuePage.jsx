@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
-import { DateRange } from 'react-date-range';
-import { addDays } from 'date-fns';
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
-import styles from './VenuePage.module.scss';
-import { getUser } from '../../utils/storage';
-import { API_BASE } from '../../utils/constants';
-import { getHeaders } from '../../utils/headers';
+import { useEffect, useState } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { DateRange } from "react-date-range";
+import { addDays } from "date-fns";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import styles from "./VenuePage.module.scss";
+import { getUser } from "../../utils/storage";
+import { API_BASE } from "../../utils/constants";
+import { getHeaders } from "../../utils/headers";
 
 /**
  * VenuePage Component
@@ -33,16 +33,18 @@ export default function VenuePage() {
     {
       startDate: new Date(),
       endDate: addDays(new Date(), 1),
-      key: 'selection',
+      key: "selection",
     },
-  ]); 
-  
+  ]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchVenue() {
       try {
-        const res = await fetch(`${API_BASE}/venues/${id}?_bookings=true&_owner=true`);
+        const res = await fetch(
+          `${API_BASE}/venues/${id}?_bookings=true&_owner=true`,
+        );
         const data = await res.json();
         setVenue(data.data);
 
@@ -53,8 +55,8 @@ export default function VenuePage() {
         }));
         setBookedRanges(ranges);
       } catch (err) {
-        console.error('Failed to fetch venue:', err);
-        alert('Could not load venue.');
+        console.error("Failed to fetch venue:", err);
+        alert("Could not load venue.");
       } finally {
         setLoading(false);
       }
@@ -68,7 +70,11 @@ export default function VenuePage() {
 
   const disabledDates = bookedRanges.flatMap((range) => {
     const dates = [];
-    for (let d = new Date(range.start); d <= range.end; d.setDate(d.getDate() + 1)) {
+    for (
+      let d = new Date(range.start);
+      d <= range.end;
+      d.setDate(d.getDate() + 1)
+    ) {
       dates.push(new Date(d));
     }
     return dates;
@@ -86,7 +92,7 @@ export default function VenuePage() {
     const profileName = user?.name;
 
     if (!profileName) {
-      alert('Please log in to book.');
+      alert("Please log in to book.");
       return;
     }
 
@@ -99,7 +105,7 @@ export default function VenuePage() {
 
     try {
       const response = await fetch(`${API_BASE}/bookings`, {
-        method: 'POST',
+        method: "POST",
         headers: getHeaders(true),
         body: JSON.stringify(bookingData),
       });
@@ -107,32 +113,43 @@ export default function VenuePage() {
       const result = await response.json();
 
       if (response.ok) {
-        navigate('/bookings');
+        navigate("/bookings");
       } else {
-        alert(result.errors?.[0]?.message || 'Booking failed');
+        alert(result.errors?.[0]?.message || "Booking failed");
       }
     } catch (err) {
       console.error(err);
-      alert('Something went wrong.');
+      alert("Something went wrong.");
     }
   }
 
   return (
     <div className={styles.venuePage}>
-<div className="redirectLink mb-3">
-  <Link to="/" className="text-decoration-underline text-primary">&larr; Back to Homepage</Link>
-</div>
+      <div className="redirectLink mb-3">
+        <Link to="/" className="text-decoration-underline text-primary">
+          &larr; Back to Homepage
+        </Link>
+      </div>
       <div className={styles.left}>
         <img
-          src={venue.media[0]?.url || '/placeholder.jpg'}
+          src={venue.media[0]?.url || "/placeholder.jpg"}
           alt={venue.media[0]?.alt || venue.name}
           className={styles.image}
         />
         <div className={styles.meta}>
-          <p><strong>Location:</strong> {venue.location.city}, {venue.location.country}</p>
-          <p><strong>Max guests:</strong> {venue.maxGuests}</p>
-          <p><strong>Stars:</strong> {venue.rating || 'Not rated'}</p>
-          <p><strong>Type:</strong> Guesthouse</p>
+          <p>
+            <strong>Location:</strong> {venue.location.city},{" "}
+            {venue.location.country}
+          </p>
+          <p>
+            <strong>Max guests:</strong> {venue.maxGuests}
+          </p>
+          <p>
+            <strong>Stars:</strong> {venue.rating || "Not rated"}
+          </p>
+          <p>
+            <strong>Type:</strong> Guesthouse
+          </p>
         </div>
         <p className={styles.description}>{venue.description}</p>
       </div>
@@ -148,7 +165,10 @@ export default function VenuePage() {
             minDate={new Date()}
             disabledDates={disabledDates}
           />
-          <button onClick={handleBooking} className="btn btn-primary w-100 mt-3">
+          <button
+            onClick={handleBooking}
+            className="btn btn-primary w-100 mt-3"
+          >
             Reserve
           </button>
           <p className="mt-2 text-center fw-bold">Total: ${total}</p>
