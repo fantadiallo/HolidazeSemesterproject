@@ -3,6 +3,18 @@ import { getUser } from '../../utils/storage';
 import { getBookingsByUser } from '../../services/api'; 
 import styles from './BookingsPage.module.scss';
 
+/**
+ * BookingsPage Component
+ * Displays a list of bookings made by the logged-in user.
+ *
+ * Features:
+ * - Fetches bookings for the current user from the API.
+ * - Shows a loading message while fetching.
+ * - Displays a message if there are no bookings.
+ * - Renders each booking with venue image, name, dates, guest count, and location.
+ *
+ * @returns {JSX.Element} The rendered BookingsPage component.
+ */
 export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
