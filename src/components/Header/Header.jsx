@@ -61,10 +61,13 @@ export default function Header() {
 
           <div className="collapse navbar-collapse" id="mainNavbar">
             {/* Search Form */}
-            <form className="d-flex mx-auto gap-2" onSubmit={handleSearch}>
+            <form
+              className={`d-flex mx-auto gap-2 ${styles.searchForm}`}
+              onSubmit={handleSearch}
+            >
               <input
                 type="date"
-                className="form-control"
+                className={`form-control ${styles.searchInput}`}
                 value={checkIn}
                 onChange={(e) => setCheckIn(e.target.value)}
                 placeholder="Check in"
@@ -72,13 +75,13 @@ export default function Header() {
               />
               <input
                 type="date"
-                className="form-control"
+                className={`form-control ${styles.searchInput}`}
                 value={checkOut}
                 onChange={(e) => setCheckOut(e.target.value)}
                 placeholder="Check out"
                 required
               />
-              <button type="submit" className="btn btn-light">
+              <button type="submit" className={`btn btn-light ${styles.searchBtn}`}>
                 Search
               </button>
             </form>

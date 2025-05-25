@@ -1,120 +1,119 @@
 @use "../../styles/variables" as *;
 
 .profilePage {
-  padding: 2rem;
+  padding-top: 2rem;
+  color: $white;
 
   h2 {
-    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $primary;
+    margin-bottom: 0.5rem;
   }
 
-  .card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: $gray-bg;
+  p {
+    font-size: 1rem;
+    color: $gray-dark;
+  }
+
+  section {
+    background-color: $green-soft;
     border-radius: 1rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
     padding: 2rem;
     margin-bottom: 2rem;
-    gap: 1rem;
-
-    img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: $gray-light;
-    }
-
-    p {
-      margin: 0.25rem 0;
-    }
-
-    @media (min-width: 768px) {
-      flex-direction: row;
-      align-items: flex-start;
-    }
+    animation: fadeInUp 0.6s ease both;
   }
 
-  .form {
-    margin-bottom: 3rem;
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-
-    input {
-      width: 100%;
-      padding: 0.5rem;
-      border-radius: 6px;
-      border: 1px solid $gray-light;
-      margin-bottom: 1rem;
-    }
-
-    button {
-      background-color: $primary;
-      color: $white;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: darken($primary, 10%);
-      }
-    }
-  }
-
-  .section {
-    margin-bottom: 2rem;
-
-    h3 {
-      margin-bottom: 1rem;
-    }
+  .btn {
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
   }
 
   .bookingCard,
   .venueCard {
-    background: $light;
-    padding: 1rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    margin-bottom: 1rem;
-    transition: box-shadow 0.3s ease;
+    border: none;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
     &:hover {
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
-    p {
-      margin: 0.3rem 0;
+    .card-img-top {
+      height: 180px;
+      object-fit: cover;
     }
-  }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .bookingCard {
-    text-align: center;
-  }
-
-  .venueCard img {
-    width: 100%;
-    border-radius: 0.5rem;
-    margin-bottom: 0.5rem;
-    height: 160px;
-    object-fit: cover;
-  }
-
-  @media (max-width: 576px) {
-    padding: 1rem;
-
-    .card {
+    .card-body {
       padding: 1rem;
+    }
+  }
+
+  .input-group-sm {
+    gap: 0.5rem;
+  }
+
+  .avatar-section {
+    background-color: $gray-bg;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+
+    img {
+      border-radius: 50%;
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 0 4px $primary;
+    }
+  }
+
+  .no-data {
+    text-align: center;
+    font-style: italic;
+    color: $blue-primary;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 2rem;
+    }
+
+    section {
+      padding: 1.25rem;
+    }
+
+    .card-img-top {
+      height: 160px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card-img-top {
+      height: 140px;
+    }
+
+    .btn {
+      width: 100%;
     }
   }
 }

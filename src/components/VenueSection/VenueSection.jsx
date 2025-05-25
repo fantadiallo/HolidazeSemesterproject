@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import styles from "./VenueSection.module.scss";
-
 const filters = ["wifi", "parking", "breakfast", "pets"];
-
-/**
+/*
  * VenueSection Component
  * Displays a list of venues with search and filter functionality.
  * @returns {JSX.Element} The rendered VenueSection component.

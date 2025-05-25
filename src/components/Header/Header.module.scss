@@ -137,3 +137,29 @@
     display: none;
   }
 }
+.searchForm {
+  width: 100%;
+  max-width: 500px;
+}
+
+.searchInput {
+  min-width: 120px;
+}
+
+.searchBtn {
+  min-width: 80px;
+}
+
+@media (max-width: 600px) {
+  .searchForm {
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 200px;
+    align-items: stretch;
+  }
+  .searchInput,
+  .searchBtn {
+    max-width: 200px;
+    min-width: 0;
+  }
+}
