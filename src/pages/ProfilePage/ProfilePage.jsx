@@ -126,12 +126,14 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {profile.bookings?.length > 0 && (
-        <section className="mb-5">
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h4>Upcoming Booked Venues</h4>
-            <Link to="/bookings" className="btn btn-sm btn-outline-secondary">View All</Link>
-          </div>
+      {/* Everyone’s Upcoming Booked Venues */}
+      <section className="mb-5">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h4>Upcoming Booked Venues</h4>
+          <Link to="/bookings" className="btn btn-sm btn-outline-secondary">View All</Link>
+        </div>
+
+        {profile.bookings?.length > 0 ? (
           <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {profile.bookings.map((booking) => (
               <div key={booking.id} className="col">
@@ -157,9 +159,12 @@ export default function ProfilePage() {
               </div>
             ))}
           </div>
-        </section>
-      )}
+        ) : (
+          <p>You have no upcoming bookings right now.</p>
+        )}
+      </section>
 
+      {/* My Venues */}
       {profile.venueManager && (
         <section className="mb-5">
           <div className="d-flex justify-content-between align-items-center mb-3">
@@ -195,31 +200,37 @@ export default function ProfilePage() {
         </section>
       )}
 
-      {profile.venueManager && profile.venues?.some(v => v.bookings?.length > 0) && (
+      {/* Bookings on My Venues */}
+      {profile.venueManager && (
         <section>
           <h4 className="mb-3">Bookings on My Venues</h4>
-          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            {profile.venues.flatMap((venue) =>
-              (venue.bookings || []).map((booking) => (
-                <div key={booking.id} className="col">
-                  <div className={`card ${styles.bookingCard}`}>
-                    <img
-                      src={venue.media?.[0]?.url || 'https://via.placeholder.com/300'}
-                      className="card-img-top"
-                      alt={venue.name}
-                    />
-                    <div className="card-body">
-                      <h6 className="card-title">{venue.name}</h6>
-                      <p className="card-text small mb-1">
-                        {new Date(booking.dateFrom).toLocaleDateString()} → {new Date(booking.dateTo).toLocaleDateString()}
-                      </p>
-                      <p className="card-text small">Booked by: {booking.customer?.name || 'Unknown'}</p>
+
+          {profile.venues?.some((v) => v.bookings?.length > 0) ? (
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+              {profile.venues.flatMap((venue) =>
+                (venue.bookings || []).map((booking) => (
+                  <div key={booking.id} className="col">
+                    <div className={`card ${styles.bookingCard}`}>
+                      <img
+                        src={venue.media?.[0]?.url || 'https://via.placeholder.com/300'}
+                        className="card-img-top"
+                        alt={venue.name}
+                      />
+                      <div className="card-body">
+                        <h6 className="card-title">{venue.name}</h6>
+                        <p className="card-text small mb-1">
+                          {new Date(booking.dateFrom).toLocaleDateString()} → {new Date(booking.dateTo).toLocaleDateString()}
+                        </p>
+                        <p className="card-text small">Booked by: {booking.customer?.name || 'Unknown'}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            )}
-          </div>
+                ))
+              )}
+            </div>
+          ) : (
+            <p>No one has booked your venues yet.</p>
+          )}
         </section>
       )}
     </div>
