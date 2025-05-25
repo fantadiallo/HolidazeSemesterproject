@@ -5,6 +5,19 @@ import { API_BASE } from '../../utils/constants';
 import { getHeaders } from '../../utils/headers';
 import styles from './EditVenuePage.module.scss';
 
+/**
+ * EditVenuePage Component
+ * Renders a form for editing an existing venue.
+ *
+ * Features:
+ * - Fetches venue data by ID and populates the form.
+ * - Allows venue managers to update venue details, location, and amenities.
+ * - Submits updated data to the API.
+ * - Allows venue deletion with confirmation.
+ * - Redirects to the profile page after successful update or deletion.
+ *
+ * @returns {JSX.Element} The rendered EditVenuePage component.
+ */
 export default function EditVenuePage() {
   const { id } = useParams();
   const navigate = useNavigate();
