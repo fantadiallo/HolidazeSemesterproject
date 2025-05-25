@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <section className={styles.hero}>
       <img
-        src="../assets/heroimage.jpg"
+        src="./heroimage.jpg"
         alt="Stylish apartment"
         className={styles.heroImage}
       />
