@@ -1,12 +1,36 @@
-# React + Vite
+# Holidaze Booking Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Holidaze is a responsive accommodation booking web application developed using React. The application enables users to browse available venues, make bookings, and for venue managers to manage listings and view upcoming bookings.
 
-Currently, two official plugins are available:
+## Live Site
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[https://app.netlify.com/projects/holidazebnb/overview](https://app.netlify.com/projects/holidazebnb/overview)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Customer Functionality
+
+- Register and log in to an account
+- Browse and search for available venues
+- Book venues with selected dates
+- View and cancel upcoming bookings
+- Update profile image and banner
+
+### Venue Manager Functionality
+
+- Create, edit, and delete personal venues
+- View upcoming bookings for owned venues
+- Upload venue media and provide location and amenity details
+- View total bookings and customer details for each venue
+
+## Technology Stack
+
+- **Framework**: React (with Vite)
+- **Styling**: SCSS Modules and Bootstrap
+- **Authentication & Data**: Noroff Holidaze API (v2)
+- **Routing**: React Router
+- **State Management**: React Hooks
+- **Form Handling**: Native HTML5 validation with custom styles
+
+## Folder Structure
+
