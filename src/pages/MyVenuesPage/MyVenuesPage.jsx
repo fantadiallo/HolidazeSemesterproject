@@ -3,6 +3,17 @@ import { fetchProfile } from '../../services/api';
 import { getUser } from '../../utils/storage';
 import { Link, useNavigate } from 'react-router-dom';
 
+/**
+ * MyVenuesPage Component
+ * Displays a list of venues managed by the currently logged-in user.
+ *
+ * Features:
+ * - Fetches the user's profile and venues from the API.
+ * - Redirects to login if the user is not authenticated.
+ * - Renders each venue with image, name, price, and action buttons for viewing or editing.
+ *
+ * @returns {JSX.Element} The rendered MyVenuesPage component.
+ */
 export default function MyVenuesPage() {
   const user = getUser();
   const navigate = useNavigate();
