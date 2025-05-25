@@ -5,6 +5,18 @@ import { getUser } from "../../utils/storage";
 import { API_BASE } from "../../utils/constants";
 import styles from "./CreateVenuePage.module.scss";
 
+/**
+ * CreateVenuePage Component
+ * Renders a form for venue managers to create a new venue.
+ *
+ * Features:
+ * - Handles form state for venue details, location, and amenities.
+ * - Submits the form to the API to create a new venue.
+ * - Shows validation and error messages.
+ * - Redirects to the profile page on successful creation.
+ *
+ * @returns {JSX.Element} The rendered CreateVenuePage component.
+ */
 export default function CreateVenuePage() {
   const navigate = useNavigate();
   const user = getUser();
