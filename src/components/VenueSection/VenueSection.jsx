@@ -62,6 +62,7 @@ export default function VenueSection() {
 
   return (
     <section className={styles.venueSection}>
+      <h2 className={styles.sectionTitle}>Venues</h2>
       <div className={styles.searchContainer}>
         <div className={styles.inputWrapper}>
           <input
