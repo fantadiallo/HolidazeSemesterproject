@@ -1,0 +1,86 @@
+@use '../../styles/variables' as *;
+
+
+.formContainer {
+  max-width: 700px;
+  margin: 0 auto;
+  background: $light;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.formTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: $primary;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+
+  label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: $dark;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid $gray-light;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: $white;
+  }
+}
+
+.checkboxGroup {
+  margin-bottom: 1rem;
+
+  input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+
+  label {
+    display: inline;
+    font-size: 0.95rem;
+    color: $secondary;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  .btn {
+    padding: 0.65rem 1.25rem;
+    font-weight: 600;
+    border-radius: 6px;
+  }
+
+  .btn-primary {
+    background-color: $primary;
+    color: $white;
+    border: none;
+
+    &:hover {
+      background-color: darken($primary, 10%);
+    }
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: $white;
+    border: none;
+
+    &:hover {
+      background-color: darken(#dc3545, 10%);
+    }
+  }
+}
