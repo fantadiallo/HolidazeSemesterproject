@@ -3,6 +3,17 @@ import { getUser, logout } from "../../utils/storage";
 import styles from "./Header.module.scss";
 import { useState } from "react";
 
+/**
+ * Header Component
+ * Renders the site header with logo, navigation links, search form, and user menu.
+ *
+ * Features:
+ * - Displays navigation links based on user authentication and role (venue manager).
+ * - Provides a search form with date pickers for check-in and check-out.
+ * - Handles user logout and navigation.
+ *
+ * @returns {JSX.Element} The rendered Header component.
+ */
 export default function Header() {
   const user = getUser();
   const isVenueManager = user?.venueManager;
